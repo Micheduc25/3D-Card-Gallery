@@ -58,6 +58,7 @@ export default function SwiperArrow({
                 animation: moveArrowLeft .3s
             }
             .swiper-arrow.right:not(.extended) .arrow-border {
+                animation: moveArrowRight .3s;
                 margin-left:20px;
             }
 
@@ -158,6 +159,29 @@ export default function SwiperArrow({
 
               }
             }
+
+            @keyframes moveArrowRight {
+                0%,100% {
+                  opacity:1
+                  transform: translateY(0) rotate(45deg);
+                }
+                
+                44%{
+                  opacity:1;
+                  transform: translateY(-65px) rotate(45deg);
+  
+                }
+                45%{
+                  opacity:0;
+                  transform: translateY(-70px) rotate(45deg);
+                }
+  
+                47%{
+                  opacity:1;
+                  transform: translateY(70px) rotate(45deg);
+  
+                }
+              }
           `}
         </style>
       </div>

@@ -1,141 +1,130 @@
 import Head from "next/head";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect } from "react";
+import Gallery from "../components/Gallery";
+import EnterScreen from "../components/EnterScreen";
+import AppHeader from "../components/AppHeader";
 
-import { Navigation, A11y, EffectCoverflow } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+export default function App(options) {
+  const [page, setPage] = useState("enter");
+  const [fromPage, setFromPage] = useState("enter");
 
-import "swiper/css"; // Import Swiper React components
-import "swiper/css/bundle";
+  const [appHeader, setAppHeader] = useState(null);
 
-import Layout from "../components/layout";
-import SwiperArrow from "../components/SwiperArrow";
-import SoundButton from "../components/SoundButton";
+  let defaultPlayAudio;
 
-export default function Home() {
-  const [swiper, setSwiper] = useState(null);
+  const [audio, setAudio] = useState(null);
+  const [playing, setPlaying] = useState(false);
 
-  const slideNext = () => {
-    if (swiper) {
-      swiper.slideNext();
-    }
-  };
-  const slidePrev = () => {
-    if (swiper) {
-      swiper.slidePrev();
-    }
-  };
-
-  const secondCursor = useRef(null);
-
-  const moveSecondCursor = (x, y) => {
-    if (secondCursor.current) {
-      secondCursor.current.style.top = y + "px";
-      secondCursor.current.style.left = x + "px";
-    }
-  };
+  const [menuClass, setMenuClass] = useState("close");
 
   useEffect(() => {
-    document.addEventListener("mousemove", (e) => {
-      if (secondCursor.current) {
-        moveSecondCursor(e.pageX, e.pageY);
-      }
-    });
-
-    return () => {
-      document.removeEventListener("mousemove", document, false);
-    };
+    setAudio(
+      new Audio("/audios/The Gallery curated by Ripple - Ripple Gallery.mp3")
+    );
   }, []);
 
-  const toggleCursor = (value) => {
-    if (value) {
-      secondCursor.current.style.display = "flex";
-      document.body.style.cursor = "none";
-    } else {
-      secondCursor.current.style.display = "none";
-      document.body.style.cursor = "pointer";
+  useEffect(() => {
+    if (audio) {
+      console.log(audio);
+      audio.loop = true;
+      audio.setAttribute("id", "main-audio");
+
+      audio.addEventListener(
+        "ended",
+        () => {
+          console.log("audio ended!");
+          audio.currentTime = 0;
+          audio.play();
+        },
+        false
+      );
+
+      defaultPlayAudio = localStorage.getItem("defaultPlayAudio");
+
+      if (defaultPlayAudio == null) {
+        localStorage.setItem("defaultPlayAudio", "true");
+        defaultPlayAudio = "true";
+      }
+
+      return audio.removeEventListener("ended", audio, false);
+    }
+  }, [audio]);
+  const playSound = () => {
+    if (audio) {
+      audio.volume = 0.5;
+      setPlaying(true);
+      audio.play();
     }
   };
 
-  const slides = [
-    { id: 1, text: "First Slide" },
-    { id: 2, text: "Second Slide" },
-    { id: 3, text: "Third Slide" },
-    { id: 4, text: "Fourth Slide" },
-    { id: 5, text: "Fifth Slide" },
-    { id: 6, text: "Sixth Slide" },
-    { id: 7, text: "Seventh Slide" },
-    { id: 8, text: "Eight Slide" },
-    { id: 9, text: "Ninth Slide" },
-    { id: 10, text: "Tenth Slide" },
-  ];
+  const stopSound = () => {
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      setPlaying(false);
+    }
+  };
+
+  const toggleSound = () => {
+    if (playing === false) {
+      playSound();
+      localStorage.setItem("defaultPlayAudio", "true");
+    } else {
+      stopSound();
+      localStorage.setItem("defaultPlayAudio", "false");
+    }
+  };
+
+  const enterGallery = () => {
+    if (defaultPlayAudio == "true") {
+      playSound();
+    }
+    setFromPage(page);
+    setPage("gallery");
+  };
+
+  const navigateToCard = () => {
+    setFromPage(page);
+    setPage("cardview");
+  };
+
+  const switchPage = () => {
+    if (page == "gallery" && fromPage == "enter") {
+      setFromPage(page);
+      setPage("enter");
+    } else if (page == "gallery" && fromPage == "cardview") {
+      setFromPage(page);
+      setPage("cardview");
+    } else if (page == "cardview") {
+      setFromPage(page);
+      setPage("gallery");
+    }
+  };
+
   return (
-    <Layout>
-      <main className="flex ">
-        <Head>
-          <title>Cards Platform</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <section className="w-full relative">
-          <SoundButton>
-            <SwiperArrow onArrowClick={slidePrev} />
-          </SoundButton>
+    <>
+      <Head>
+        <title>Cards Platform</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-          <SoundButton>
-            <SwiperArrow
-              onArrowClick={slideNext}
-              extendText="Next"
-              direction="next"
-            />
-          </SoundButton>
-
-          <Swiper
-            modules={[Navigation, A11y, EffectCoverflow]}
-            spaceBetween={50}
-            // navigation
-            slidesPerView={5}
-            effect="coverflow"
-            coverflowEffect={{
-              rotate: 15,
-              // stretch: 0,
-              depth: 100,
-              modifier: 1,
-              slideShadows: false,
-            }}
-            onSlideChange={() => console.log("slide change")}
-            onSwiper={(s) => setSwiper(s)}
-            onSliderMove={(s, e) => {
-              moveSecondCursor(e.clientX, e.clientY);
-            }}
-          >
-            {slides.map((slide) => (
-              <SwiperSlide
-                className=" odd:bg-green-500 even:bg-red-500"
-                onMouseEnter={() => toggleCursor(true)}
-                onMouseLeave={() => toggleCursor(false)}
-                key={slide.id}
-              >
-                <div className=" cursor-none slide-item w-full flex items-center justify-center">
-                  {slide.text}
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </section>
-        <div
-          id="second-cursor"
-          ref={secondCursor}
-          className="absolute hidden z-50 w-12 h-12 rounded-full bg-white text-blue-400 text-3xl shadow-lg items-center justify-center"
-        >
-          +
-        </div>
+      {page != "enter" && (
+        <AppHeader
+          onRef={setAppHeader}
+          className="pt-12"
+          onToggleSound={toggleSound}
+          onSwitchPage={switchPage}
+        />
+      )}
+      <main className="main-app overflow-hidden">
+        {page == "enter" ? (
+          <EnterScreen onEnter={enterGallery} />
+        ) : page == "gallery" ? (
+          <Gallery onNavigateToCard={navigateToCard} />
+        ) : (
+          <div>Hello</div>
+        )}
       </main>
-
-      <style jsx>{`
-        .slide-item {
-          height: 400px;
-        }
-      `}</style>
-    </Layout>
+    </>
   );
 }

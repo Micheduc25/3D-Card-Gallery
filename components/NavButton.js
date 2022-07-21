@@ -7,6 +7,8 @@ export default function NavButton({
   hasImage = true,
   onButtonClick,
   rotateOnHover = false,
+  classNames = "",
+  style = {},
 }) {
   const [audio, setAudio] = useState(null);
   const [playing, setPlaying] = useState(false);
@@ -49,8 +51,8 @@ export default function NavButton({
       onClick={onButtonClick}
       onMouseEnter={playAudio}
       onMouseLeave={stopAudio}
-      className={`navButton cursor-pointer shadow-lg flex items-center justify-center rounded-full `}
-      style={{ backgroundColor: background }}
+      className={`navButton cursor-pointer shadow-lg flex items-center justify-center rounded-full ${classNames}`}
+      style={{ ...style, backgroundColor: background }}
     >
       <div
         className={`but-content mx-auto w-content flex ${
@@ -65,6 +67,11 @@ export default function NavButton({
           height: 50px;
 
           border-radius: 50%;
+          transition: opacity 0.3s;
+        }
+
+        .navButton.disabled {
+          opacity: 0.2;
         }
 
         .but-content {
