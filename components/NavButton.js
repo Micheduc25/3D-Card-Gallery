@@ -12,13 +12,14 @@ export default function NavButton({
 }) {
   const [audio, setAudio] = useState(null);
   const [playing, setPlaying] = useState(false);
+  const [canPlay, setCanPlay] = useState(false);
 
   useEffect(() => {
     setAudio(new Audio("/audios/mixkit-page-back-chime-1108.wav"));
   }, []);
 
   const playAudio = () => {
-    if (audio && playing === false) {
+    if (audio && canPlay && playing === false) {
       audio.volume = 0.3;
       setPlaying(true);
       audio.play();
@@ -26,7 +27,7 @@ export default function NavButton({
   };
 
   const stopAudio = () => {
-    if (audio && playing === true) {
+    if (audio && canPlay && playing === true) {
       audio.pause();
       audio.currentTime = 0;
       setPlaying(false);
@@ -34,6 +35,10 @@ export default function NavButton({
   };
 
   useEffect(() => {
+    const defaultPlayAudio = localStorage.getItem("defaultPlayAudio");
+
+    setCanPlay(defaultPlayAudio == "true");
+
     if (audio) {
       audio.addEventListener("ended", () => {
         stopAudio();
@@ -67,31 +72,54 @@ export default function NavButton({
           height: 50px;
 
           border-radius: 50%;
+          transition: 0.3s;
           transition: opacity 0.3s;
         }
 
+        .navButton:hover {
+          transform: scale(1.1);
+        }
+
         .navButton.disabled {
+          position: relative;
           opacity: 0.2;
+        }
+
+        .navButton::before {
+          content: "";
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          border-radius: 50%;
+          background-color: rgba(0, 0, 0, 0);
+          transition: background-color 0.3s;
+        }
+
+        .navButton.disabled::before {
+          background-color: rgba(0, 0, 0, 0.3);
         }
 
         .but-content {
           backface-visibility: hidden;
-          transform: perspective(1px) scale(1) rotate(0);
-          transition: transform 0.3s;
+          transform: scale(1) rotate(0);
+          transition: 0.4s;
+          perspective: 500px;
         }
-        .navButton:hover .but-content {
-          transform: perspective(1px) scale(1.2) rotate(-10deg);
+
+        .but-content.rot {
+          transition: 0.5s;
+        }
+        .navButton:hover .but-content:not(.rot) {
+          transform: scale(1.2) rotate(-10deg);
         }
 
         .navButton:hover .but-content.rot {
-          transform: scale(1.2) rotate(90deg);
-        }
+          transform-style: preserve-3d;
 
-        @keyframes rotateContent {
-          0% {
-          }
-          100% {
-          }
+          transform: rotateX(0) rotateY(360deg) rotateZ(90deg);
         }
       `}</style>
     </div>

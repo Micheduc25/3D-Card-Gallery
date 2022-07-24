@@ -6,13 +6,14 @@ export default function SoundButton({
 }) {
   const [audio, setAudio] = useState(null);
   const [playing, setPlaying] = useState(false);
+  const [canPlay, setCanPlay] = useState(false);
 
   useEffect(() => {
     setAudio(new Audio(url));
   }, []);
 
   const playAudio = () => {
-    if (audio && playing === false) {
+    if (audio && canPlay && playing === false) {
       audio.volume = 0.3;
       setPlaying(true);
       audio.play();
@@ -20,7 +21,7 @@ export default function SoundButton({
   };
 
   const stopAudio = () => {
-    if (audio && playing === true) {
+    if (audio && canPlay && playing === true) {
       audio.pause();
       audio.currentTime = 0;
       setPlaying(false);
@@ -28,6 +29,9 @@ export default function SoundButton({
   };
 
   useEffect(() => {
+    const defaultPlayAudio = localStorage.getItem("defaultPlayAudio");
+    setCanPlay(defaultPlayAudio == "true");
+
     if (audio) {
       audio.addEventListener("ended", () => {
         stopAudio();

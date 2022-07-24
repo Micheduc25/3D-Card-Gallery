@@ -120,7 +120,7 @@ export default function App(options) {
         {page == "enter" ? (
           <EnterScreen onEnter={enterGallery} />
         ) : page == "gallery" ? (
-          <Gallery onNavigateToCard={navigateToCard} />
+          <Gallery onRef={() => {}} onNavigateToCard={navigateToCard} />
         ) : (
           <div>Hello</div>
         )}

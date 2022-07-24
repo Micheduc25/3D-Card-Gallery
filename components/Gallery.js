@@ -12,9 +12,10 @@ import Layout from "../components/layout";
 import SwiperArrow from "../components/SwiperArrow";
 import SoundButton from "../components/SoundButton";
 
-export default function Gallery({ onNavigateToCard }) {
+export default function Gallery({ onNavigateToCard, onRef }) {
   const router = useRouter();
   const [swiper, setSwiper] = useState(null);
+  const galleryRef = useRef(null);
 
   const slideNext = () => {
     if (swiper) {
@@ -37,6 +38,8 @@ export default function Gallery({ onNavigateToCard }) {
   };
 
   useEffect(() => {
+    onRef(galleryRef);
+
     document.addEventListener("mousemove", (e) => {
       if (secondCursor.current) {
         moveSecondCursor(e.pageX, e.pageY);
@@ -90,8 +93,8 @@ export default function Gallery({ onNavigateToCard }) {
     { id: 10, text: "Tenth Slide" },
   ];
   return (
-    <Layout>
-      <main className="flex ">
+    <>
+      <main ref={galleryRef} className="flex  pt-12 pb-6">
         <section className="slider-container w-full relative slide-in-big">
           <SoundButton>
             <SwiperArrow onArrowClick={slidePrev} />
@@ -127,7 +130,7 @@ export default function Gallery({ onNavigateToCard }) {
           >
             {slides.map((slide) => (
               <SwiperSlide
-                className=" odd:bg-blue-400 even:bg-blue-700"
+                className="slide-item-container odd:bg-blue-400 even:bg-blue-700"
                 onMouseEnter={() => toggleCursor(true)}
                 onMouseLeave={() => toggleCursor(false)}
                 onClick={(e) => openCard(e, slide.id)}
@@ -155,13 +158,22 @@ export default function Gallery({ onNavigateToCard }) {
         }
 
         .slide-content {
-          transition: transform 0.7s ease-in-out;
+          transition: all 0.7s ease-in-out;
         }
 
         .slide-content.expand {
-          transform: scale(2);
         }
+
+        // .slide-content.expand {
+        //   position: absolute;
+        //   left: 50%;
+        //   top: 50%;
+        //   transform: translate(-50%, -50%);
+        //   z-index: 1000;
+        //   width: 100vw;
+        //   height: 100vh;
+        // }
       `}</style>
-    </Layout>
+    </>
   );
 }

@@ -7,6 +7,7 @@ export default function AppHeader({
   onRef,
   onToggleSound,
   onSwitchPage,
+  menuClasses = "",
 }) {
   const appHeader = useRef(null);
 
@@ -16,6 +17,7 @@ export default function AppHeader({
     if (onRef) onRef(appHeader);
 
     const defaultPlayAudio = localStorage.getItem("defaultPlayAudio");
+    setCanPlay(defaultPlayAudio == "true" ? true : false);
   }, [appHeader]);
   return (
     <>
@@ -40,7 +42,7 @@ export default function AppHeader({
             </a>
           </Link>
 
-          <div className="flex ">
+          <div className="flex">
             <NavButton
               onButtonClick={() => {
                 setCanPlay(!canPlay);
@@ -58,10 +60,10 @@ export default function AppHeader({
               hasImage={false}
               background="#3f95f8"
               style={{ animationDelay: "1.66s" }}
-              classNames="slide-in"
+              classNames="slide-in m-butt"
               onButtonClick={onSwitchPage}
             >
-              <div className="menu-icon">
+              <div className={`menu-icon ${menuClasses}`}>
                 <span></span>
                 <span></span>
                 <span></span>
@@ -77,6 +79,8 @@ export default function AppHeader({
             width: 18px;
             height: 2px;
             margin: 0 auto;
+            transition: 0.3s ease-in-out;
+            transform-origin: center center;
           }
 
           .menu-icon span:nth-child(2) {
@@ -85,6 +89,16 @@ export default function AppHeader({
 
           .menu-icon span:not(:last-child) {
             margin-bottom: 3px;
+          }
+          .menu-icon.closable span:nth-child(2) {
+            width: 0;
+          }
+          .menu-icon.closable span:nth-child(1) {
+            margin-bottom: 0px;
+            transform: translateY(3px) rotate(-45deg);
+          }
+          .menu-icon.closable span:nth-child(3) {
+            transform: translateY(-3px) rotate(45deg);
           }
         `}</style>
       </header>
