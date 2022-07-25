@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import AppHeader from "../../components/AppHeader";
 import { useEffect, useState } from "react";
 import Gallery from "../../components/Gallery";
+
 export default function CardScreen({ children }) {
   const router = useRouter();
   const modelId = router.query.id;
@@ -42,7 +43,7 @@ export default function CardScreen({ children }) {
             }}
           />
         ) : (
-          <div>Card {modelId}</div>
+          <div>Hello {modelId}</div>
         )}
       </main>
     </>
