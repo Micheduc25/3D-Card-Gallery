@@ -106,15 +106,6 @@ export default function App(options) {
       <Head>
         <title>Cards Platform</title>
         <link rel="icon" href="/favicon.ico" />
-
-        <script
-          type="text/javascript"
-          src="/scripts/index.b10eeb99.js"
-        ></script>
-        <script
-          type="text/javascript"
-          src="/scripts/vendor.9c14883d.js"
-        ></script>
       </Head>
 
       {page != "enter" && (

@@ -29,7 +29,7 @@ const M = function () {
     fetch(e.href, a);
   }
 };
-M();
+// M();
 function S({ swiper: t, extendParams: s, on: o }) {
   s({ panoramaEffect: { depth: 200, rotate: 30 } }),
     o("beforeInit", () => {
@@ -68,24 +68,27 @@ function S({ swiper: t, extendParams: s, on: o }) {
         });
     });
 }
-new E(".panorama-slider .swiper", {
-  modules: [$, S],
-  effect: "panorama",
-  slidesPerView: 1.5,
-  loop: !0,
-  loopedSlides: 10,
-  centeredSlides: !0,
-  grabCursor: !0,
-  pagination: {
-    el: ".swiper-pagination",
-    dynamicBullets: !0,
-    dynamicMainBullets: 3,
-  },
-  panoramaEffect: { depth: 150, rotate: 45 },
-  breakpoints: {
-    480: { slidesPerView: 2, panoramaEffect: { rotate: 35, depth: 150 } },
-    640: { slidesPerView: 3, panoramaEffect: { rotate: 30, depth: 150 } },
-    1024: { slidesPerView: 4, panoramaEffect: { rotate: 30, depth: 200 } },
-    1200: { slidesPerView: 5, panoramaEffect: { rotate: 25, depth: 250 } },
-  },
-});
+
+// new E(".panorama-slider .swiper", {
+//   modules: [$, S],
+//   effect: "panorama",
+//   slidesPerView: 1.5,
+//   loop: !0,
+//   loopedSlides: 10,
+//   centeredSlides: !0,
+//   grabCursor: !0,
+//   pagination: {
+//     el: ".swiper-pagination",
+//     dynamicBullets: !0,
+//     dynamicMainBullets: 3,
+//   },
+//   panoramaEffect: { depth: 150, rotate: 45 },
+//   breakpoints: {
+//     480: { slidesPerView: 2, panoramaEffect: { rotate: 35, depth: 150 } },
+//     640: { slidesPerView: 3, panoramaEffect: { rotate: 30, depth: 150 } },
+//     1024: { slidesPerView: 4, panoramaEffect: { rotate: 30, depth: 200 } },
+//     1200: { slidesPerView: 5, panoramaEffect: { rotate: 25, depth: 250 } },
+//   },
+// });
+
+export { E, $, S, M };
