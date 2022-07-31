@@ -363,6 +363,7 @@ button.swiper-pagination-bullet {
 .panorama-slider .swiper-slide {
   -webkit-user-select: none;
   user-select: none;
+  cursor: none !important;
   /* height: 280px; */
   -webkit-box-reflect: below 10px -webkit-linear-gradient(bottom, rgba(
           255,

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-export default function EnterScreen({ onEnter }) {
+export default function EnterScreen({ soundMuted = true, onEnter }) {
   const [audio, setAudio] = useState(null);
   const [playing, setPlaying] = useState(false);
 
@@ -8,7 +8,7 @@ export default function EnterScreen({ onEnter }) {
   }, []);
 
   const playAudio = () => {
-    if (audio && playing === false) {
+    if (audio && !soundMuted && playing === false) {
       audio.volume = 0.3;
       setPlaying(true);
 
@@ -20,7 +20,7 @@ export default function EnterScreen({ onEnter }) {
   };
 
   const stopAudio = () => {
-    if (audio && playing === true) {
+    if (audio && !soundMuted && playing === true) {
       audio.pause();
       audio.currentTime = 0;
       setPlaying(false);

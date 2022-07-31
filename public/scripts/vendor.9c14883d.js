@@ -2365,7 +2365,8 @@ function Jt(t) {
   )
     return;
   if (e.params.freeMode && s.freeMode.enabled) {
-    s.freeMode.onTouchEnd({ currentPos: f });
+    console.log(e);
+    e.freeMode.onTouchEnd({ currentPos: f });
     return;
   }
   let p = 0,

@@ -1,16 +1,16 @@
 import Head from "next/head";
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { E, $, S, M } from "/public/scripts/index.b10eeb99.js";
 export default function Carousel({
   children,
+  onRef = () => {},
   onSwiper = () => {},
   onSwiperClick = () => {},
   onSliderMove = () => {},
-  onMouseEnterSlide = () => {},
-  onMouseLeaveSlide = () => {},
 }) {
   const [swiper, setSwiper] = useState(null);
+  const sliderRef = useRef(null);
 
   useEffect(() => {
     M();
@@ -20,15 +20,22 @@ export default function Carousel({
         effect: "panorama",
         slidesPerView: 1.5,
         loop: !0,
-        loopedSlides: 10,
+        // loopedSlides: 10,
         centeredSlides: !0,
         grabCursor: false,
         spaceBetween: 20,
-        height: window.innerHeight,
         autoHeight: false,
         speed: 1000,
         freeMode: true,
+        // {
+        //   enabled: true,
+        //   momentum: true,
+        //   momentumBounceRatio: 0.4,
+        //   momentumVelocityRatio: 0.1,
+        //   momentumRatio: 1,
+        // },
         pagination: false,
+        resistance: false,
         panoramaEffect: { depth: 150, rotate: 45 },
         breakpoints: {
           480: {
@@ -57,6 +64,11 @@ export default function Carousel({
   }, []);
 
   useEffect(() => {
+    if (sliderRef.current) {
+      onRef(sliderRef);
+    }
+  }, [sliderRef]);
+  useEffect(() => {
     if (swiper) {
       swiper.on(
         "click",
@@ -64,7 +76,12 @@ export default function Carousel({
           const dist = Math.abs(s.activeIndex - s.clickedIndex);
           swiper.slideTo(s.clickedIndex, dist * 400);
 
-          onSwiperClick(s, e);
+          swiper.on("transitionEnd", () => {
+            setTimeout(() => {
+              onSwiperClick(s, e);
+              swiper.off("transitionEnd", () => {});
+            }, 300);
+          });
         },
         [swiper]
       );
@@ -72,6 +89,7 @@ export default function Carousel({
       swiper.on("sliderMove", (s, e) => {
         onSliderMove(s, e);
       });
+
       onSwiper(swiper);
     }
   });
@@ -80,7 +98,15 @@ export default function Carousel({
       <Head>
         <link rel="modulepreload" href="/scripts/vendor.9c14883d.js" />
       </Head>
-      <div>
+      <div
+        ref={sliderRef}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
+        onMouseUp={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <Script
           id="car1"
           strategy="afterInteractive"
@@ -93,12 +119,7 @@ export default function Carousel({
             {children}
             <div className="swiper-wrapper">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-                <div
-                  onMouseEnter={onMouseEnterSlide}
-                  onMouseLeave={onMouseLeaveSlide}
-                  key={`slide${i}`}
-                  className={`swiper-slide s-slide${i}`}
-                >
+                <div key={`slide${i}`} className={`swiper-slide s-slide${i}`}>
                   <img
                     className="slide-image"
                     src={`/images/carousel/${i}.jpg`}

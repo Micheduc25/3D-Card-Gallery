@@ -8,24 +8,30 @@ export default function AppHeader({
   onToggleSound,
   onSwitchPage,
   menuClasses = "",
+  canPlayEnabled = false,
 }) {
   const appHeader = useRef(null);
 
-  const [canPlay, setCanPlay] = useState(true);
+  // const [canPlay, setCanPlay] = useState(true);
+
+  // const toggleCanPlay = (value) => {
+  //   if (canPlayEnabled) {
+  //     console.log(canPlayEnabled, value);
+  //     setCanPlay(typeof value !== "undefined" ? value : !canPlay);
+  //     console.log(canPlay);
+  //   }
+  // };
 
   useEffect(() => {
     if (onRef) onRef(appHeader);
-
-    const defaultPlayAudio = localStorage.getItem("defaultPlayAudio");
-    setCanPlay(defaultPlayAudio == "true" ? true : false);
   }, [appHeader]);
+
   return (
     <>
       <header ref={appHeader} className={`mb-12 px-6 ${className}`}>
         <nav className="slide-in flex justify-between items-center">
           <Link href="/">
             <a className=" text-2xl font-light">
-              {" "}
               <span
                 style={{ animationDelay: "1.1s" }}
                 className="slide-in inline-block mr-2"
@@ -45,13 +51,13 @@ export default function AppHeader({
           <div className="flex">
             <NavButton
               onButtonClick={() => {
-                setCanPlay(!canPlay);
                 onToggleSound();
               }}
               image="/images/headset.png"
               background="white"
               style={{ animationDelay: "1.5s" }}
-              classNames={`slide-in ${!canPlay ? "disabled" : ""}`}
+              classNames={`slide-in ${canPlayEnabled ? "" : "disabled"}`}
+              muted={!canPlayEnabled}
             />
 
             <div className="mr-4"></div>
@@ -62,6 +68,7 @@ export default function AppHeader({
               style={{ animationDelay: "1.66s" }}
               classNames="slide-in m-butt"
               onButtonClick={onSwitchPage}
+              muted={!canPlayEnabled}
             >
               <div className={`menu-icon ${menuClasses}`}>
                 <span></span>

@@ -9,17 +9,18 @@ export default function NavButton({
   rotateOnHover = false,
   classNames = "",
   style = {},
+
+  muted = true,
 }) {
   const [audio, setAudio] = useState(null);
   const [playing, setPlaying] = useState(false);
-  const [canPlay, setCanPlay] = useState(false);
 
   useEffect(() => {
     setAudio(new Audio("/audios/mixkit-page-back-chime-1108.wav"));
   }, []);
 
   const playAudio = () => {
-    if (audio && canPlay && playing === false) {
+    if (audio && !muted && playing === false) {
       audio.volume = 0.3;
       setPlaying(true);
       audio.play();
@@ -27,7 +28,7 @@ export default function NavButton({
   };
 
   const stopAudio = () => {
-    if (audio && canPlay && playing === true) {
+    if (audio && playing === true) {
       audio.pause();
       audio.currentTime = 0;
       setPlaying(false);
@@ -35,10 +36,6 @@ export default function NavButton({
   };
 
   useEffect(() => {
-    const defaultPlayAudio = localStorage.getItem("defaultPlayAudio");
-
-    setCanPlay(defaultPlayAudio == "true");
-
     if (audio) {
       audio.addEventListener("ended", () => {
         stopAudio();
@@ -60,7 +57,7 @@ export default function NavButton({
       style={{ ...style, backgroundColor: background }}
     >
       <div
-        className={`but-content mx-auto w-content flex ${
+        className={`but-content mx-auto w-content flex select-none ${
           rotateOnHover ? "rot" : ""
         }`}
       >
@@ -70,6 +67,7 @@ export default function NavButton({
         .navButton {
           width: 50px;
           height: 50px;
+          z-index: 52;
 
           border-radius: 50%;
           transition: 0.3s;

@@ -10,10 +10,11 @@ export default function App(options) {
 
   const [appHeader, setAppHeader] = useState(null);
 
-  let defaultPlayAudio;
+  const [defaultPlayAudio, setDefaultPlayAudio] = useState(null);
 
   const [audio, setAudio] = useState(null);
-  const [playing, setPlaying] = useState(false);
+
+  const [justLoaded, setJustLoaded] = useState(true);
 
   const [menuClass, setMenuClass] = useState("close");
 
@@ -25,60 +26,74 @@ export default function App(options) {
 
   useEffect(() => {
     if (audio) {
-      console.log(audio);
       audio.loop = true;
-      audio.setAttribute("id", "main-audio");
 
       audio.addEventListener(
         "ended",
         () => {
-          console.log("audio ended!");
           audio.currentTime = 0;
           audio.play();
         },
         false
       );
 
-      defaultPlayAudio = localStorage.getItem("defaultPlayAudio");
+      const d_p_audio = localStorage.getItem("defaultPlayAudio");
 
-      if (defaultPlayAudio == null) {
+      if (d_p_audio == null) {
         localStorage.setItem("defaultPlayAudio", "true");
-        defaultPlayAudio = "true";
+        setDefaultPlayAudio("true");
+      } else {
+        setDefaultPlayAudio(d_p_audio);
+        setJustLoaded(d_p_audio === "true");
       }
 
       return audio.removeEventListener("ended", audio, false);
     }
   }, [audio]);
-  const playSound = () => {
-    if (audio) {
+
+  const playSound = (callback, onError) => {
+    if (audio && (defaultPlayAudio === "false" || justLoaded)) {
       audio.volume = 0.5;
-      setPlaying(true);
-      audio.play();
+      audio
+        .play()
+        .then((_) => {
+          localStorage.setItem("defaultPlayAudio", "true");
+          setDefaultPlayAudio("true");
+
+          if (justLoaded) setJustLoaded(false);
+
+          return callback ? callback() : null;
+        })
+
+        .catch((err) => (onError ? onError(err) : null));
     }
   };
 
   const stopSound = () => {
-    if (audio) {
+    if (audio && defaultPlayAudio === "true") {
       audio.pause();
       audio.currentTime = 0;
-      setPlaying(false);
+
+      localStorage.setItem("defaultPlayAudio", "false");
+      setDefaultPlayAudio("false");
     }
   };
 
   const toggleSound = () => {
-    if (playing === false) {
-      playSound();
-      localStorage.setItem("defaultPlayAudio", "true");
+    if (defaultPlayAudio === "false") {
+      playSound(null, (err) => {
+        console.log("an error occured while playing sound ==>", err);
+      });
     } else {
       stopSound();
-      localStorage.setItem("defaultPlayAudio", "false");
     }
   };
 
   const enterGallery = () => {
-    if (defaultPlayAudio == "true") {
+    if (defaultPlayAudio === "true") {
       playSound();
     }
+
     setFromPage(page);
     setPage("gallery");
   };
@@ -86,6 +101,10 @@ export default function App(options) {
   const navigateToCard = () => {
     setFromPage(page);
     setPage("cardview");
+
+    if (defaultPlayAudio === "true") {
+      return audio.currentTime;
+    }
   };
 
   const switchPage = () => {
@@ -111,16 +130,26 @@ export default function App(options) {
       {page != "enter" && (
         <AppHeader
           onRef={setAppHeader}
-          className="pt-12"
+          className="pt-12 absolute left-0 top-0 w-full z-50"
+          menuClasses={`${page == "gallery" ? "closable" : ""}`}
           onToggleSound={toggleSound}
           onSwitchPage={switchPage}
+          canPlayEnabled={defaultPlayAudio === "true"}
         />
       )}
       <main className="main-app overflow-hidden">
         {page == "enter" ? (
-          <EnterScreen onEnter={enterGallery} />
+          <EnterScreen
+            onEnter={enterGallery}
+            soundMuted={defaultPlayAudio !== "true"}
+          />
         ) : page == "gallery" ? (
-          <Gallery onRef={() => {}} onNavigateToCard={navigateToCard} />
+          <Gallery
+            onRef={() => {}}
+            onNavigateToCard={navigateToCard}
+            soundMuted={defaultPlayAudio !== "true"}
+            cleanUp={stopSound}
+          />
         ) : (
           <div>Hello</div>
         )}

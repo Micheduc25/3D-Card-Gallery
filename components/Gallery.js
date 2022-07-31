@@ -5,10 +5,22 @@ import SwiperArrow from "../components/SwiperArrow";
 import SoundButton from "../components/SoundButton";
 import Carousel from "./GalleryCarousel";
 
-export default function Gallery({ onNavigateToCard, onRef }) {
+export default function Gallery({
+  onNavigateToCard,
+  onRef,
+  soundMuted = true,
+  cleanUp = () => {},
+}) {
   const router = useRouter();
   const [swiper, setSwiper] = useState(null);
+
+  const [sliderRef, setSliderRef] = useState(null);
+
+  const [isDraggingScreen, setIsDraggingScreen] = useState(false);
+
   const galleryRef = useRef(null);
+
+  const expandCardRef = useRef(null);
 
   const slideNext = () => {
     if (swiper) {
@@ -30,60 +42,135 @@ export default function Gallery({ onNavigateToCard, onRef }) {
     }
   };
 
-  const onPageDrag = (e) => {
-    console.log(e);
+  const onPageDragHandler = (type, e) => {
+    // if (type == "mousedown" && !isDraggingScreen) {
+    //   setIsDraggingScreen(true);
+    // } else if (type == "mousemove" && isDraggingScreen) {
+    //   //move slider here
+    //   swiper.translateTo(swiper.translate + e.movementX, 500);
+    // } else if (type == "mouseup" && isDraggingScreen) {
+    //   setIsDraggingScreen(false);
+    // }
   };
 
   useEffect(() => {
-    onRef(galleryRef);
+    if (galleryRef.current) {
+      onRef(galleryRef);
+    }
+  }, [galleryRef]);
 
+  useEffect(() => {
     document.addEventListener("mousemove", (e) => {
       if (secondCursor.current) {
         moveSecondCursor(e.pageX, e.pageY);
       }
     });
+    const swiperSlides = document.getElementsByClassName("swiper-slide");
+    for (let i = 0; i < swiperSlides.length; i++) {
+      swiperSlides[i].addEventListener("mouseenter", () => {
+        toggleCursor(true);
+      });
+
+      swiperSlides[i].addEventListener("mouseleave", () => {
+        toggleCursor(false);
+      });
+    }
 
     return () => {
       document.removeEventListener("mousemove", document, false);
+
+      for (let i = 0; i < swiperSlides.length; i++) {
+        swiperSlides[i].removeEventListener(
+          "mouseenter",
+          swiperSlides[i],
+          false
+        );
+
+        swiperSlides[i].removeEventListener(
+          "mouseleave",
+          swiperSlides[i],
+          false
+        );
+      }
     };
   }, []);
 
   const toggleCursor = (value) => {
     if (value) {
-      secondCursor.current.style.display = "flex";
+      secondCursor.current.classList.add("show");
       document.body.style.cursor = "none";
     } else {
-      secondCursor.current.style.display = "none";
+      if (secondCursor.current) secondCursor.current.classList.remove("show");
       document.body.style.cursor = "grab";
     }
   };
 
+  //method called when a slider card is clicked
   const openCard = (s, e) => {
     const card = e.target;
-    const index = s.clickedIndex;
-    card.classList.add("expand");
+    const cardImage = card.children[0];
+
+    const expandCard = expandCardRef.current;
+
+    expandCard.children[0].src = cardImage.src;
+
+    const cardRect = card.getBoundingClientRect();
+
+    //set size of expand card
+    expandCard.style.width = cardRect.width + "px";
+    expandCard.style.height = cardRect.height + "px";
+
+    //set position of expand card
+    expandCard.style.left = cardRect.left + "px";
+    expandCard.style.top = cardRect.top + "px";
+
+    expandCard.classList.add("expand");
+    expandCard.style.transform = `scaleX(${
+      window.innerWidth / cardRect.width
+    }) scaleY(${window.innerHeight / cardRect.height + 0.2})`;
 
     setTimeout(() => {
-      card.classList.remove("expand");
-      onNavigateToCard();
+      if (sliderRef.current) sliderRef.current.style.opacity = 0;
+      toggleCursor(false);
+      expandCard.style.opacity = "0";
+      const currentSoundPosition = onNavigateToCard();
 
-      router.push(`/models/${index + 1}`);
-    }, 1500);
+      router
+        .push(
+          `/models/${s.realIndex + 1}${
+            currentSoundPosition ? "?csp=" + currentSoundPosition : ""
+          }`,
+          undefined,
+          { shallow: true }
+        )
+        .then((res) => {
+          cleanUp();
+        })
+        .catch((err) => {
+          console.log(err);
+          cleanUp();
+        });
+    }, 1100);
   };
 
   return (
     <>
-      <main
+      <section
         ref={galleryRef}
-        onDrag={onPageDrag}
-        className="flex h-screen items-center justify-center  pt-12 pb-6"
+        onMouseDown={(e) => onPageDragHandler("mousedown")}
+        onMouseUp={(e) => onPageDragHandler("mouseup")}
+        onMouseMove={(e) => onPageDragHandler("mousemove", e)}
+        className="flex h-screen items-center justify-center  pt-12 pb-6 relative"
       >
+        <div ref={expandCardRef} className="slide-exapandable">
+          <img className="slide-image" />
+        </div>
         <section className="slider-container w-full relative slide-in-big">
-          <SoundButton>
+          <SoundButton muted={soundMuted}>
             <SwiperArrow onArrowClick={slidePrev} />
           </SoundButton>
 
-          <SoundButton>
+          <SoundButton muted={soundMuted}>
             <SwiperArrow
               onArrowClick={slideNext}
               extendText="Next"
@@ -91,46 +178,74 @@ export default function Gallery({ onNavigateToCard, onRef }) {
             />
           </SoundButton>
           <Carousel
+            onRef={setSliderRef}
             onSwiper={setSwiper}
             onSliderMove={(s, e) => {
               e.stopPropagation();
               moveSecondCursor(e.clientX, e.clientY);
             }}
-            onMouseEnterSlide={() => toggleCursor(true)}
-            onMouseLeaveSlide={() => toggleCursor(false)}
             onSwiperClick={openCard}
           ></Carousel>
         </section>
         <div
           id="second-cursor"
           ref={secondCursor}
-          className="select-none absolute hidden z-50 w-12 h-12 rounded-full bg-white text-blue-400 text-3xl shadow-lg items-center justify-center"
+          className="select-none absolute z-50 w-12 h-12 rounded-full bg-white text-blue-400 text-3xl shadow-lg items-center justify-center"
         >
-          +
+          <span>+</span>
         </div>
-      </main>
+      </section>
 
       <style jsx>{`
-        .slide-item {
-          height: 400px;
+        .slide-exapandable {
+          -webkit-user-select: none;
+          user-select: none;
+          position: absolute;
+          z-index: 50;
+          visibility: hidden;
+          opacity: 1;
+          pointer-events: none;
+          transform-origin: center;
+          transition: all 1.1s ease-in;
         }
 
-        .slide-content {
-          transition: all 0.7s ease-in-out;
+        .slide-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          pointer-events: none;
+          -webkit-user-select: none;
+          user-select: none;
         }
 
-        .slide-content.expand {
+        .slide-exapandable.expand {
+          visibility: visible;
         }
 
-        // .slide-content.expand {
-        //   position: absolute;
-        //   left: 50%;
-        //   top: 50%;
-        //   transform: translate(-50%, -50%);
-        //   z-index: 1000;
-        //   width: 100vw;
-        //   height: 100vh;
-        // }
+        #second-cursor {
+          display: flex;
+          visibility: hidden;
+          pointer-events: none;
+
+          opacity: 0;
+          transition: opacity 0.2s ease-in;
+        }
+
+        #second-cursor span {
+          // display: block;
+          transform: rotate(90deg);
+          transition: transform 0.3s;
+        }
+
+        #second-cursor.show {
+          visibility: visible;
+          pointer-events: all;
+
+          opacity: 1;
+        }
+        #second-cursor.show span {
+          transform: rotate(0deg);
+        }
       `}</style>
     </>
   );
