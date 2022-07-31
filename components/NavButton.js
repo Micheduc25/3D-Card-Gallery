@@ -80,7 +80,7 @@ export default function NavButton({
 
         .navButton.disabled {
           position: relative;
-          opacity: 0.2;
+          opacity: 0.1;
         }
 
         .navButton::before {
@@ -97,7 +97,7 @@ export default function NavButton({
         }
 
         .navButton.disabled::before {
-          background-color: rgba(0, 0, 0, 0.3);
+          background-color: rgba(0, 0, 0, 0.2);
         }
 
         .but-content {

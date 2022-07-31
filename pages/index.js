@@ -9,6 +9,7 @@ export default function App(options) {
   const [fromPage, setFromPage] = useState("enter");
 
   const [appHeader, setAppHeader] = useState(null);
+  const [galleryRef, setGalleryRef] = useState(null);
 
   const [defaultPlayAudio, setDefaultPlayAudio] = useState(null);
 
@@ -17,6 +18,8 @@ export default function App(options) {
   const [justLoaded, setJustLoaded] = useState(true);
 
   const [menuClass, setMenuClass] = useState("close");
+
+  const [abtButClasses, setAbtButClasses] = useState("");
 
   useEffect(() => {
     setAudio(
@@ -98,6 +101,18 @@ export default function App(options) {
     setPage("gallery");
   };
 
+  const exitGallery = () =>
+    new Promise((resolve, reject) => {
+      galleryRef.current.classList.add("slide-bottom");
+      setAbtButClasses("exit");
+      setTimeout(() => {
+        galleryRef.current.classList.remove("slide-bottom");
+        setAbtButClasses("");
+        document.body.style.cursor = "initial";
+        resolve(null);
+      }, 2000);
+    });
+
   const navigateToCard = () => {
     setFromPage(page);
     setPage("cardview");
@@ -107,16 +122,19 @@ export default function App(options) {
     }
   };
 
+  const navigateTo = async (newpage, beforeNavigate) => {
+    if (beforeNavigate) await beforeNavigate();
+    setFromPage(page);
+    setPage(newpage);
+  };
+
   const switchPage = () => {
     if (page == "gallery" && fromPage == "enter") {
-      setFromPage(page);
-      setPage("enter");
+      navigateTo("enter", exitGallery);
     } else if (page == "gallery" && fromPage == "cardview") {
-      setFromPage(page);
-      setPage("cardview");
+      navigateTo("cardview", exitGallery);
     } else if (page == "cardview") {
-      setFromPage(page);
-      setPage("gallery");
+      navigateTo("gallery");
     }
   };
 
@@ -145,10 +163,11 @@ export default function App(options) {
           />
         ) : page == "gallery" ? (
           <Gallery
-            onRef={() => {}}
+            onRef={setGalleryRef}
             onNavigateToCard={navigateToCard}
             soundMuted={defaultPlayAudio !== "true"}
             cleanUp={stopSound}
+            aboutButClasses={abtButClasses}
           />
         ) : (
           <div>Hello</div>

@@ -53,7 +53,7 @@ export default function AppHeader({
               onButtonClick={() => {
                 onToggleSound();
               }}
-              image="/images/headset.png"
+              image="/images/headphone.svg"
               background="white"
               style={{ animationDelay: "1.5s" }}
               classNames={`slide-in ${canPlayEnabled ? "" : "disabled"}`}

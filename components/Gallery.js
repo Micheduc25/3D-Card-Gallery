@@ -4,12 +4,15 @@ import { useRouter } from "next/router";
 import SwiperArrow from "../components/SwiperArrow";
 import SoundButton from "../components/SoundButton";
 import Carousel from "./GalleryCarousel";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Gallery({
   onNavigateToCard,
   onRef,
   soundMuted = true,
   cleanUp = () => {},
+  aboutButClasses = "",
 }) {
   const router = useRouter();
   const [swiper, setSwiper] = useState(null);
@@ -156,16 +159,18 @@ export default function Gallery({
   return (
     <>
       <section
-        ref={galleryRef}
         onMouseDown={(e) => onPageDragHandler("mousedown")}
         onMouseUp={(e) => onPageDragHandler("mouseup")}
         onMouseMove={(e) => onPageDragHandler("mousemove", e)}
-        className="flex h-screen items-center justify-center  pt-12 pb-6 relative"
+        className="flex h-screen items-center justify-center bg-gray-100  pt-12 pb-6 relative"
       >
         <div ref={expandCardRef} className="slide-exapandable">
           <img className="slide-image" />
         </div>
-        <section className="slider-container w-full relative slide-in-big">
+        <section
+          ref={galleryRef}
+          className="slider-container w-full relative slide-in-big"
+        >
           <SoundButton muted={soundMuted}>
             <SwiperArrow onArrowClick={slidePrev} />
           </SoundButton>
@@ -194,6 +199,32 @@ export default function Gallery({
         >
           <span>+</span>
         </div>
+
+        <SoundButton muted={soundMuted}>
+          <Link href="/">
+            <a
+              className={
+                "block about-but absolute left-1/2 bottom-0 cursor-pointer group " +
+                aboutButClasses
+              }
+            >
+              <div className="about-wrapper relative flex">
+                <img
+                  src="/images/shape5.svg"
+                  alt="about holder"
+                  className="group-hover:scale-125 duration-500 transition-transform"
+                />
+
+                <span
+                  style={{ top: "60%" }}
+                  className="absolute text-lg text-blue-300 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                >
+                  About
+                </span>
+              </div>
+            </a>
+          </Link>
+        </SoundButton>
       </section>
 
       <style jsx>{`
@@ -245,6 +276,40 @@ export default function Gallery({
         }
         #second-cursor.show span {
           transform: rotate(0deg);
+        }
+
+        .about-wrapper img {
+          width: 230px;
+        }
+
+        .about-but {
+          animation: enter-fade 0.7s ease-out 0.2s both;
+          transform-origin: bottom center;
+        }
+        .about-but.exit {
+          animation: exit-fade 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
+          transform-origin: bottom center;
+        }
+
+        @keyframes enter-fade {
+          from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-15px) scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+          }
+        }
+        @keyframes exit-fade {
+          from {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+          }
+          to {
+            opacity: 0;
+            transform: translateX(-50%) translateY(15px) scale(0.9);
+          }
         }
       `}</style>
     </>

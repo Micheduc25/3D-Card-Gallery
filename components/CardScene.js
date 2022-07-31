@@ -7,6 +7,7 @@ import SwiperArrow from "./SwiperArrow";
 import Head from "next/head";
 import Script from "next/script";
 import { E, $, S, M } from "/public/scripts/index.b10eeb99.js";
+import Loader from "./Loader";
 
 export default function CardScene({}) {
   const [cameraPosition, setCameraPosition] = useState({ x: 7, y: 20, z: 3 });
@@ -85,46 +86,51 @@ export default function CardScene({}) {
         />
         <div className="swiper-wrapper">
           <div className="swiper-slide">
-            <Canvas
-              camera={{
-                type: "PerspectiveCamera",
-                position: Object.values(cameraPosition),
-                fov: fieldOfView,
-                zoom: 1.8,
-                rotation: { y: Math.PI / 2 },
-              }}
-              shadows={true}
-              style={{
-                width: "100vw",
-                height: "100vh",
-                backgroundColor: "0xffffff",
-              }}
-            >
-              <hemisphereLight
-                color={"0xffffff"}
-                groundColor={"0x080820"}
-                intensity={0.8}
-              />
-              <spotLight
-                intensity={0.8}
-                castShadow={true}
-                color={"0xffa95c"}
-                // shadow={{
-                //   bias: -0.0001,
-                //   mapSize: [1024 * 4, 1024 * 4],
+            <Suspense fallback={<Loader />}>
+              <Canvas
+                camera={{
+                  type: "PerspectiveCamera",
+                  position: Object.values(cameraPosition),
+                  fov: fieldOfView,
+                  zoom: 1.8,
+                  rotation: { y: Math.PI / 2 },
+                }}
+                shadows={true}
+                style={{
+                  width: "100vw",
+                  height: "100vh",
+                  backgroundColor: "ffffff",
+                }}
+              >
+                <hemisphereLight
+                  color={"white"}
+                  groundColor={0x080820}
+                  intensity={0.8}
+                />
+                <spotLight
+                  intensity={0.8}
+                  castShadow={true}
+                  color={0xffa95c}
+                  // shadow={{
+                  //   bias: -0.0001,
+                  //   mapSize: [1024 * 4, 1024 * 4],
 
-                // }}
-                position={[
-                  cameraPosition.x + 10,
-                  cameraPosition.y + 10,
-                  cameraPosition.z + 10,
-                ]}
-              />
-              <Suspense fallback={null}>
+                  // }}
+                  position={[
+                    cameraPosition.x + 10,
+                    cameraPosition.y + 10,
+                    cameraPosition.z + 10,
+                  ]}
+                />
+
                 <SceneModel />
-              </Suspense>
-              <OrbitControls minPolarAngle={0} maxPolarAngle={Math.PI / 2.5} />
-            </Canvas>
+
+                <OrbitControls
+                  minPolarAngle={0}
+                  maxPolarAngle={Math.PI / 2.5}
+                />
+              </Canvas>
+            </Suspense>
           </div>
         </div>
       </section>
