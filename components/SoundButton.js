@@ -4,6 +4,7 @@ export default function SoundButton({
   children,
   url = "/audios/mixkit-page-back-chime-1108.wav",
   muted = true,
+  className = "",
 }) {
   const [audio, setAudio] = useState(null);
   const [playing, setPlaying] = useState(false);
@@ -42,7 +43,11 @@ export default function SoundButton({
   }, []);
   return (
     <>
-      <div onMouseEnter={playAudio} onMouseLeave={stopAudio}>
+      <div
+        onMouseEnter={playAudio}
+        onMouseLeave={stopAudio}
+        className={className}
+      >
         {children}
       </div>
     </>

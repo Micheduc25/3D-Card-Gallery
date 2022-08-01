@@ -1,12 +1,34 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
 import Gallery from "../components/Gallery";
 import EnterScreen from "../components/EnterScreen";
 import AppHeader from "../components/AppHeader";
+import CardScene from "../components/CardScene";
 
-export default function App(options) {
-  const [page, setPage] = useState("enter");
-  const [fromPage, setFromPage] = useState("enter");
+import cardsData from "/public/data/cards-data.json";
+
+export async function getServerSideProps({ query }) {
+  if (query.model_id) {
+    return {
+      props: {
+        showModelFromStart: true,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
+
+export default function App({ showModelFromStart }) {
+  const router = useRouter();
+  const [page, setPage] = useState(showModelFromStart ? "cardview" : "enter");
+  const [fromPage, setFromPage] = useState(
+    showModelFromStart ? "gallery" : "enter"
+  );
 
   const [appHeader, setAppHeader] = useState(null);
   const [galleryRef, setGalleryRef] = useState(null);
@@ -20,6 +42,8 @@ export default function App(options) {
   const [menuClass, setMenuClass] = useState("close");
 
   const [abtButClasses, setAbtButClasses] = useState("");
+
+  const [activeCard, setActiveCard] = useState(cardsData[0]);
 
   useEffect(() => {
     setAudio(
@@ -113,9 +137,11 @@ export default function App(options) {
       }, 2000);
     });
 
-  const navigateToCard = () => {
+  const navigateToCard = (id) => {
     setFromPage(page);
     setPage("cardview");
+
+    setActiveCard(cardsData.find((card) => card.id == id));
 
     if (defaultPlayAudio === "true") {
       return audio.currentTime;
@@ -170,7 +196,10 @@ export default function App(options) {
             aboutButClasses={abtButClasses}
           />
         ) : (
-          <div>Hello</div>
+          <CardScene
+            soundMuted={defaultPlayAudio !== "true"}
+            initialCard={activeCard}
+          />
         )}
       </main>
     </>

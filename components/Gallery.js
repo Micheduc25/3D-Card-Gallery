@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import SwiperArrow from "../components/SwiperArrow";
 import SoundButton from "../components/SoundButton";
 import Carousel from "./GalleryCarousel";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Gallery({
@@ -111,6 +110,8 @@ export default function Gallery({
   //method called when a slider card is clicked
   const openCard = (s, e) => {
     const card = e.target;
+
+    const cardId = parseInt(e.target.id.split("-")[2]);
     const cardImage = card.children[0];
 
     const expandCard = expandCardRef.current;
@@ -136,23 +137,11 @@ export default function Gallery({
       if (sliderRef.current) sliderRef.current.style.opacity = 0;
       toggleCursor(false);
       expandCard.style.opacity = "0";
-      const currentSoundPosition = onNavigateToCard();
+      onNavigateToCard(cardId);
 
-      router
-        .push(
-          `/models/${s.realIndex + 1}${
-            currentSoundPosition ? "?csp=" + currentSoundPosition : ""
-          }`,
-          undefined,
-          { shallow: true }
-        )
-        .then((res) => {
-          cleanUp();
-        })
-        .catch((err) => {
-          console.log(err);
-          cleanUp();
-        });
+      router.push(`/?model_id=${cardId}`, undefined, {
+        shallow: true,
+      });
     }, 1100);
   };
 

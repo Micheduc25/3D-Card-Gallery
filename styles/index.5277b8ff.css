@@ -341,7 +341,7 @@ button.swiper-pagination-bullet {
   height: 350px;
   display: flex;
   align-items: center;
-  /* overflow: hidden; */
+  overflow: visible;
 }
 
 .panorama-slider .swiper .swiper-wrapper {

@@ -2,6 +2,7 @@ import Head from "next/head";
 import Script from "next/script";
 import { useEffect, useState, useRef } from "react";
 import { E, $, S, M } from "/public/scripts/index.b10eeb99.js";
+import cardsData from "/public/data/cards-data.json";
 export default function Carousel({
   children,
   onRef = () => {},
@@ -20,7 +21,7 @@ export default function Carousel({
         effect: "panorama",
         slidesPerView: 1.5,
         loop: !0,
-        // loopedSlides: 10,
+        loopedSlides: cardsData.length,
         centeredSlides: !0,
         grabCursor: false,
         spaceBetween: 20,
@@ -118,13 +119,13 @@ export default function Carousel({
           <div className="swiper h-screen">
             {children}
             <div className="swiper-wrapper">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-                <div key={`slide${i}`} className={`swiper-slide s-slide${i}`}>
-                  <img
-                    className="slide-image"
-                    src={`/images/carousel/${i}.jpg`}
-                    alt=""
-                  />
+              {cardsData.map((card) => (
+                <div
+                  id={`swiper-card-${card.id}`}
+                  key={`slide${card.id}`}
+                  className={`swiper-slide s-slide${card.id}`}
+                >
+                  <img className="slide-image" src={card.image1} alt="" />
                 </div>
               ))}
             </div>
