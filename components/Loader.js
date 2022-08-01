@@ -1,8 +1,23 @@
-export default function Loader(props) {
+import { useRef, useEffect } from "react";
+
+export default function Loader({ backgroundColor, color = "#3f95f8" }) {
+  const loader = useRef();
+
+  useEffect(() => {
+    if (loader.current) {
+      loader.current.style.setProperty("--loaderColor", color);
+      loader.current.style.color = color;
+    }
+  }, [loader]);
   return (
     <>
-      <div className="flex justify-center items-center h-screen w-screen">
-        <span className="loader"></span>
+      <div
+        style={{
+          backgroundColor: backgroundColor ? backgroundColor : "transparent",
+        }}
+        className="flex justify-center items-center h-screen w-screen"
+      >
+        <span ref={loader} className="loader"></span>
       </div>
 
       <style jsx>{`
@@ -28,7 +43,7 @@ export default function Loader(props) {
           animation: 1s spin linear infinite;
         }
         .loader:after {
-          color: #3f95f8;
+          color: #ffffff;
           transform: rotateY(70deg);
           animation-delay: 0.4s;
         }

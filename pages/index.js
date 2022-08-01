@@ -14,6 +14,7 @@ export async function getServerSideProps({ query }) {
     return {
       props: {
         showModelFromStart: true,
+        model_id: parseInt(query.model_id),
       },
     };
   }
@@ -23,7 +24,7 @@ export async function getServerSideProps({ query }) {
   };
 }
 
-export default function App({ showModelFromStart }) {
+export default function App({ showModelFromStart, model_id }) {
   const router = useRouter();
   const [page, setPage] = useState(showModelFromStart ? "cardview" : "enter");
   const [fromPage, setFromPage] = useState(
@@ -43,7 +44,9 @@ export default function App({ showModelFromStart }) {
 
   const [abtButClasses, setAbtButClasses] = useState("");
 
-  const [activeCard, setActiveCard] = useState(cardsData[0]);
+  const [activeCard, setActiveCard] = useState(
+    model_id ? cardsData[model_id - 1] : cardsData[0]
+  );
 
   useEffect(() => {
     setAudio(

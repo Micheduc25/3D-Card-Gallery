@@ -4,69 +4,109 @@
     "image1": "/images/carousel/1.jpg",
     "image2": "/images/carousel/2.jpg",
     "podiumColor": "92e1f7",
-    "backgroundColor": "42cef5"
+    "backgroundColor": "42cef5",
+    "theme": "dark",
+    "firstName": "Samuel",
+    "lastName": "Eto'o",
+    "title": "Fighting Spirit"
   },
   {
     "id": 2,
     "image1": "/images/carousel/2.jpg",
     "image2": "/images/carousel/3.jpg",
     "podiumColor": "c899f2",
-    "backgroundColor": "9931f5"
+    "backgroundColor": "9931f5",
+    "theme": "light",
+    "firstName": "Ndjock",
+    "lastName": "Junior",
+    "title": "Fighting Spirit"
   },
   {
     "id": 3,
     "image1": "/images/carousel/3.jpg",
     "image2": "/images/carousel/4.jpg",
     "podiumColor": "5af27d",
-    "backgroundColor": "11a834"
+    "backgroundColor": "11a834",
+    "theme": "dark",
+    "firstName": "Samuel",
+    "lastName": "Eto'o",
+    "title": "Fighting Spirit"
   },
   {
     "id": 4,
     "image1": "/images/carousel/4.jpg",
     "image2": "/images/carousel/5.jpg",
     "podiumColor": "5af27d",
-    "backgroundColor": "11a834"
+    "backgroundColor": "11a834",
+    "theme": "dark",
+    "firstName": "Samuel",
+    "lastName": "Eto'o",
+    "title": "Fighting Spirit"
   },
   {
     "id": 5,
     "image1": "/images/carousel/5.jpg",
     "image2": "/images/carousel/6.jpg",
     "podiumColor": "5af27d",
-    "backgroundColor": "11a834"
+    "backgroundColor": "11a834",
+    "theme": "light",
+    "firstName": "Samuel",
+    "lastName": "Eto'o",
+    "title": "Fighting Spirit"
   },
   {
     "id": 6,
     "image1": "/images/carousel/6.jpg",
     "image2": "/images/carousel/7.jpg",
     "podiumColor": "5af27d",
-    "backgroundColor": "11a834"
+    "backgroundColor": "11a834",
+    "theme": "light",
+    "firstName": "Samuel",
+    "lastName": "Eto'o",
+    "title": "Fighting Spirit"
   },
   {
     "id": 7,
     "image1": "/images/carousel/7.jpg",
     "image2": "/images/carousel/8.jpg",
     "podiumColor": "5af27d",
-    "backgroundColor": "11a834"
+    "backgroundColor": "11a834",
+    "theme": "light",
+    "firstName": "Samuel",
+    "lastName": "Eto'o",
+    "title": "Fighting Spirit"
   },
   {
     "id": 8,
     "image1": "/images/carousel/8.jpg",
     "image2": "/images/carousel/9.jpg",
     "podiumColor": "5af27d",
-    "backgroundColor": "11a834"
+    "backgroundColor": "11a834",
+    "theme": "light",
+    "firstName": "Samuel",
+    "lastName": "Eto'o",
+    "title": "Fighting Spirit"
   },
   {
     "id": 9,
     "image1": "/images/carousel/9.jpg",
     "image2": "/images/carousel/10.jpg",
     "podiumColor": "5af27d",
-    "backgroundColor": "11a834"
+    "backgroundColor": "11a834",
+    "theme": "light",
+    "firstName": "Samuel",
+    "lastName": "Eto'o",
+    "title": "Fighting Spirit"
   },
   {
     "id": 10,
     "image1": "/images/carousel/10.jpg",
     "image2": "/images/carousel/1.jpg",
     "podiumColor": "5af27d",
-    "backgroundColor": "11a834"
+    "backgroundColor": "11a834",
+    "theme": "light",
+    "firstName": "Samuel",
+    "lastName": "Eto'o",
+    "title": "Fighting Spirit"
   }
 ]

@@ -22,15 +22,13 @@ export default function CardScene({ soundMuted, initialCard }) {
   const [swiper, setSwiper] = useState(null);
   const router = useRouter();
 
-  const model_id = parseInt(router.query.model_id);
+  const [activeCard, setActiveCard] = useState(initialCard);
+
+  const [model_id, setModelId] = useState(parseInt(router.query.model_id));
 
   useEffect(() => {
     setDefaultPlayAudio(localStorage.getItem("defaultPlayAudio") === "true");
   }, []);
-
-  useEffect(() => {
-    if (swiper) console.log("swiper set ", swiper);
-  }, [swiper]);
 
   const slidePrev = () => {
     if (swiper) {
@@ -50,6 +48,71 @@ export default function CardScene({ soundMuted, initialCard }) {
       }
     }
   };
+
+  const getNextSlideIndex = (currentIndex = 0) => {
+    const numSlides = swiper.slides.length;
+
+    if (currentIndex == numSlides - 1) {
+      return 1;
+    } else return currentIndex + 1;
+  };
+
+  const changeSlide = async (direction, beforeChange, afterChange) => {
+    if (beforeChange) {
+      await beforeChange(direction);
+    }
+    if (direction == "next") slideNext();
+    else slidePrev();
+
+    if (afterChange) await afterChange();
+  };
+
+  const setExitAnimation = (direction) =>
+    new Promise((resolve, reject) => {
+      const currentSlide = swiper.slides[swiper.activeIndex];
+
+      document
+        .querySelectorAll(".model-info")
+        .forEach((node) => node.classList.remove("visible"));
+
+      currentSlide.children[0].classList.remove("visible");
+
+      setTimeout(() => {
+        resolve(null);
+      }, 1200);
+    });
+
+  const setEntryAnimation = (direction) =>
+    new Promise((resolve, reject) => {
+      const currentSlide = swiper.slides[swiper.activeIndex];
+
+      document
+        .querySelectorAll(".model-info")
+        .forEach((node) => node.classList.remove("visible"));
+
+      setTimeout(() => {
+        currentSlide.children[0].classList.add("visible");
+      }, 1000);
+
+      setTimeout(() => {
+        resolve(null);
+      }, 400);
+    });
+
+  const onSlideChange = (s) => {
+    const currentSlide = s.slides[s.activeIndex];
+    const s_id = parseInt(currentSlide.id.split("-")[2]);
+    setModelId(s_id);
+
+    router.push(`/?model_id=${s_id}`, undefined, { shallow: true });
+  };
+
+  const onSwiper = (s) => {
+    setSwiper(s);
+    const c_slide = s.slides[s.activeIndex];
+    c_slide.children[0].classList.add("visible");
+  };
+
   return (
     <>
       <Head></Head>
@@ -59,12 +122,16 @@ export default function CardScene({ soundMuted, initialCard }) {
             canExtend={true}
             extendText="Previous"
             direction="prev"
-            onArrowClick={slidePrev}
+            onArrowClick={() => {
+              changeSlide("prev", setExitAnimation, setEntryAnimation);
+            }}
           />
         </SoundButton>
         <SoundButton muted={soundMuted ?? defaultPlayAudio}>
           <SwiperArrow
-            onArrowClick={slideNext}
+            onArrowClick={() => {
+              changeSlide("next", setExitAnimation, setEntryAnimation);
+            }}
             canExtend={true}
             extendText="Next"
             direction="next"
@@ -73,65 +140,82 @@ export default function CardScene({ soundMuted, initialCard }) {
 
         <Swiper
           spaceBetween={0}
-          onSwiper={setSwiper}
+          onSwiper={onSwiper}
           slidesPerView={1}
           loop={true}
           grabCursor={false}
           allowTouchMove={false}
-          allowSlideNext={false}
-          allowSlidePrev={false}
+          allowSlideNext={true}
+          allowSlidePrev={true}
           initialSlide={initialCard ? initialCard.id - 1 : model_id - 1}
+          onSlideChange={onSlideChange}
+          // onSlideChangeTransitionStart={onTransitionStart}
         >
-          <div className="model-info z-50 flex fixed">
-            <div className="info-wrapper relative">
-              <svg
-                className={"info-svg i-s"}
-                viewBox="0 0 286 278"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M91.0177 242.287C91.0177 242.287 105.618 276.086 138.318 276.686C171.018 277.286 235.918 277.987 235.918 277.987C235.918 277.987 284.118 273.686 284.718 229.387C285.318 185.087 285.618 51.9865 285.618 51.9865C285.618 51.9865 287.718 -5.11347 230.418 0.78653C173.118 6.68653 46.5177 20.3865 46.5177 20.3865C46.5177 20.3865 0.517725 28.0865 0.517725 71.5865C0.517725 71.5865 -0.0822744 84.6865 13.3177 107.987C26.6177 131.287 91.0177 242.287 91.0177 242.287Z"></path>
-              </svg>
-
-              <div className="flex flex-col absolute -right-20 text-white top-28 -translate-x-1/2 -translate-y-1/2">
-                <div className="text-2xl font-light">Samuel</div>
-                <div className="text-2xl font-bold mb-4">Eto'o</div>
-                <div className="text-sm mb-4">Fighting Spirit</div>
-
-                <div className="more-buts flex">
-                  <SoundButton
-                    muted={soundMuted ?? defaultPlayAudio}
-                    className="mr-4"
-                  >
-                    <button className="like-but flex items-center justify-center bg-blue-500  w-12 h-12 rounded-full shadow-lg">
-                      <img
-                        className="w-6 h-6"
-                        src="/images/like.svg"
-                        alt="like"
-                      />
-                    </button>
-                  </SoundButton>
-
-                  <SoundButton muted={soundMuted ?? defaultPlayAudio}>
-                    <button className="more-b rounded-full bg-white text-blue-300 px-6 py-3">
-                      <div className="c-wrapper">
-                        <span className="mr-3 text-md">More</span>
-                        <span className="text-xs">&#10095;</span>
-                      </div>
-                    </button>
-                  </SoundButton>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {cardsData.map((card, index) => (
             <SwiperSlide
               id={`view-card-${card.id}`}
-              className="swiper-slide"
+              className="overflow-hidden"
               key={`card ${index} ${card.id}`}
             >
+              <div className="model-info z-50 flex absolute">
+                <div className="info-wrapper relative">
+                  <svg
+                    className={"info-svg i-s"}
+                    viewBox="0 0 286 278"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M91.0177 242.287C91.0177 242.287 105.618 276.086 138.318 276.686C171.018 277.286 235.918 277.987 235.918 277.987C235.918 277.987 284.118 273.686 284.718 229.387C285.318 185.087 285.618 51.9865 285.618 51.9865C285.618 51.9865 287.718 -5.11347 230.418 0.78653C173.118 6.68653 46.5177 20.3865 46.5177 20.3865C46.5177 20.3865 0.517725 28.0865 0.517725 71.5865C0.517725 71.5865 -0.0822744 84.6865 13.3177 107.987C26.6177 131.287 91.0177 242.287 91.0177 242.287Z"></path>
+                  </svg>
+
+                  <div
+                    className={`flex flex-col absolute -right-20 ${
+                      card.theme == "light" ? "text-white" : "text-black"
+                    } top-28 -translate-x-1/2 -translate-y-1/2`}
+                  >
+                    <div className="text-2xl font-light">{card.firstName}</div>
+                    <div className="text-2xl font-bold mb-4">
+                      {card.lastName}
+                    </div>
+                    <div className="text-sm mb-4"> {card.title} </div>
+
+                    <div className="more-buts flex">
+                      <SoundButton
+                        muted={soundMuted ?? defaultPlayAudio}
+                        className="mr-4 slide-in"
+                      >
+                        <button className="like-but flex items-center justify-center bg-blue-500  w-12 h-12 rounded-full shadow-lg">
+                          <img
+                            className="w-6 h-6"
+                            src="/images/like.svg"
+                            alt="like"
+                          />
+                        </button>
+                      </SoundButton>
+
+                      <SoundButton
+                        className="slide-in delay-400 "
+                        muted={soundMuted ?? defaultPlayAudio}
+                      >
+                        <button className="more-b rounded-full bg-white text-blue-300 px-6 py-3">
+                          <div className="c-wrapper">
+                            <span className="mr-3 text-md">More</span>
+                            <span className="text-xs">&#10095;</span>
+                          </div>
+                        </button>
+                      </SoundButton>
+                    </div>
+                  </div>
+                </div>
+              </div>
               {swiper && swiper.realIndex == card.id - 1 ? (
-                <Suspense fallback={<Loader />}>
+                <Suspense
+                  fallback={
+                    <Loader
+                      backgroundColor={"#" + card.backgroundColor}
+                      color={"#" + card.podiumColor}
+                    />
+                  }
+                >
                   <Canvas
                     camera={{
                       type: "PerspectiveCamera",
@@ -150,10 +234,10 @@ export default function CardScene({ soundMuted, initialCard }) {
                     <hemisphereLight
                       color={"white"}
                       groundColor={0x080820}
-                      intensity={0.9}
+                      intensity={0.5}
                     />
                     <spotLight
-                      intensity={0.9}
+                      intensity={0.7}
                       castShadow={true}
                       color={0xffffff}
                       // shadow={{
@@ -181,7 +265,10 @@ export default function CardScene({ soundMuted, initialCard }) {
                   </Canvas>
                 </Suspense>
               ) : (
-                <Loader />
+                <Loader
+                  backgroundColor={"#" + card.backgroundColor}
+                  color={"#" + card.podiumColor}
+                />
               )}
             </SwiperSlide>
           ))}
@@ -189,8 +276,16 @@ export default function CardScene({ soundMuted, initialCard }) {
 
         <style jsx>{`
           .model-info {
+            left: -7.5rem;
+            bottom: -4rem;
+            opacity: 0;
+            transition: 0.3s cubic-bezier(0.2, 0.5, 0.07, 1);
+          }
+
+          .model-info.visible {
             left: -5rem;
             bottom: -4rem;
+            opacity: 1;
           }
 
           .info-svg {
