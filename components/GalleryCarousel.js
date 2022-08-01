@@ -87,7 +87,7 @@ export default function Carousel({
               setTimeout(() => {
                 onSwiperClick(s, e);
                 swiper.off("transitionEnd", () => {});
-              }, 450);
+              }, 1000);
             });
           }
         },
