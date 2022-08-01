@@ -189,7 +189,7 @@ export default function Gallery({
           <span>+</span>
         </div>
 
-        <SoundButton muted={soundMuted}>
+        {/* <SoundButton muted={soundMuted}>
           <Link href="/">
             <a
               className={
@@ -213,7 +213,7 @@ export default function Gallery({
               </div>
             </a>
           </Link>
-        </SoundButton>
+        </SoundButton> */}
       </section>
 
       <style jsx>{`
@@ -267,39 +267,39 @@ export default function Gallery({
           transform: rotate(0deg);
         }
 
-        .about-wrapper img {
-          width: 230px;
-        }
+        // .about-wrapper img {
+        //   width: 230px;
+        // }
 
-        .about-but {
-          animation: enter-fade 0.7s ease-out 0.2s both;
-          transform-origin: bottom center;
-        }
-        .about-but.exit {
-          animation: exit-fade 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
-          transform-origin: bottom center;
-        }
+        // .about-but {
+        //   animation: enter-fade 0.7s ease-out 0.2s both;
+        //   transform-origin: bottom center;
+        // }
+        // .about-but.exit {
+        //   animation: exit-fade 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
+        //   transform-origin: bottom center;
+        // }
 
-        @keyframes enter-fade {
-          from {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-15px) scale(0.8);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0) scale(1);
-          }
-        }
-        @keyframes exit-fade {
-          from {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0) scale(1);
-          }
-          to {
-            opacity: 0;
-            transform: translateX(-50%) translateY(15px) scale(0.9);
-          }
-        }
+        // @keyframes enter-fade {
+        //   from {
+        //     opacity: 0;
+        //     transform: translateX(-50%) translateY(-15px) scale(0.8);
+        //   }
+        //   to {
+        //     opacity: 1;
+        //     transform: translateX(-50%) translateY(0) scale(1);
+        //   }
+        // }
+        // @keyframes exit-fade {
+        //   from {
+        //     opacity: 1;
+        //     transform: translateX(-50%) translateY(0) scale(1);
+        //   }
+        //   to {
+        //     opacity: 0;
+        //     transform: translateX(-50%) translateY(15px) scale(0.9);
+        //   }
+        // }
       `}</style>
     </>
   );

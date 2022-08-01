@@ -77,12 +77,19 @@ export default function Carousel({
           const dist = Math.abs(s.activeIndex - s.clickedIndex);
           swiper.slideTo(s.clickedIndex, dist * 400);
 
-          swiper.on("transitionEnd", () => {
+          if (dist === 0) {
             setTimeout(() => {
               onSwiperClick(s, e);
               swiper.off("transitionEnd", () => {});
             }, 300);
-          });
+          } else {
+            swiper.on("transitionEnd", () => {
+              setTimeout(() => {
+                onSwiperClick(s, e);
+                swiper.off("transitionEnd", () => {});
+              }, 450);
+            });
+          }
         },
         [swiper]
       );
