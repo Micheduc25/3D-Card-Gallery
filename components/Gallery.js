@@ -22,7 +22,7 @@ export default function Gallery({
 
   const galleryRef = useRef(null);
 
-  const expandCardRef = useRef(null);
+  const expandCardRef = useRef();
 
   const slideNext = () => {
     if (swiper) {
@@ -116,6 +116,8 @@ export default function Gallery({
 
     const expandCard = expandCardRef.current;
 
+    if (!expandCard) return;
+
     expandCard.children[0].src = cardImage.src;
 
     const cardRect = card.getBoundingClientRect();
@@ -151,7 +153,7 @@ export default function Gallery({
         onMouseDown={(e) => onPageDragHandler("mousedown")}
         onMouseUp={(e) => onPageDragHandler("mouseup")}
         onMouseMove={(e) => onPageDragHandler("mousemove", e)}
-        className="flex h-screen items-center justify-center bg-gray-100  pt-12 pb-6 relative"
+        className="flex h-screen items-center justify-center bg-gray-100   pb-6 relative"
       >
         <div ref={expandCardRef} className="slide-exapandable">
           <img className="slide-image" />
@@ -189,11 +191,11 @@ export default function Gallery({
           <span>+</span>
         </div>
 
-        {/* <SoundButton muted={soundMuted}>
+        <SoundButton muted={soundMuted}>
           <Link href="/">
             <a
               className={
-                "block about-but absolute left-1/2 bottom-0 cursor-pointer group " +
+                "block about-but absolute z-40 left-1/2 bottom-0 cursor-pointer group " +
                 aboutButClasses
               }
             >
@@ -206,14 +208,14 @@ export default function Gallery({
 
                 <span
                   style={{ top: "60%" }}
-                  className="absolute text-lg text-blue-300 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  className="absolute text-lg text-blue-400 left-1/2 -translate-x-1/2 -translate-y-1/2"
                 >
                   About
                 </span>
               </div>
             </a>
           </Link>
-        </SoundButton> */}
+        </SoundButton>
       </section>
 
       <style jsx>{`
@@ -221,7 +223,7 @@ export default function Gallery({
           -webkit-user-select: none;
           user-select: none;
           position: absolute;
-          z-index: 50;
+          z-index: 100;
           visibility: hidden;
           opacity: 1;
           pointer-events: none;
@@ -267,39 +269,45 @@ export default function Gallery({
           transform: rotate(0deg);
         }
 
-        // .about-wrapper img {
-        //   width: 230px;
-        // }
+        .about-wrapper img {
+          width: 220px;
+        }
 
-        // .about-but {
-        //   animation: enter-fade 0.7s ease-out 0.2s both;
-        //   transform-origin: bottom center;
-        // }
-        // .about-but.exit {
-        //   animation: exit-fade 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
-        //   transform-origin: bottom center;
-        // }
+        @media only screen and (min-width: 1024px) {
+          .about-wrapper img {
+            width: 260px;
+          }
+        }
 
-        // @keyframes enter-fade {
-        //   from {
-        //     opacity: 0;
-        //     transform: translateX(-50%) translateY(-15px) scale(0.8);
-        //   }
-        //   to {
-        //     opacity: 1;
-        //     transform: translateX(-50%) translateY(0) scale(1);
-        //   }
-        // }
-        // @keyframes exit-fade {
-        //   from {
-        //     opacity: 1;
-        //     transform: translateX(-50%) translateY(0) scale(1);
-        //   }
-        //   to {
-        //     opacity: 0;
-        //     transform: translateX(-50%) translateY(15px) scale(0.9);
-        //   }
-        // }
+        .about-but {
+          animation: enter-fade 0.7s ease-out 0.2s both;
+          transform-origin: bottom center;
+        }
+        .about-but.exit {
+          animation: exit-fade 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
+          transform-origin: bottom center;
+        }
+
+        @keyframes enter-fade {
+          from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-15px) scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+          }
+        }
+        @keyframes exit-fade {
+          from {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+          }
+          to {
+            opacity: 0;
+            transform: translateX(-50%) translateY(15px) scale(0.9);
+          }
+        }
       `}</style>
     </>
   );

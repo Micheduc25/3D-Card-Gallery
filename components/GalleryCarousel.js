@@ -55,9 +55,9 @@ export default function Carousel({
             panoramaEffect: { rotate: 30, depth: 200 },
           },
           1200: {
-            slidesPerView: 5,
+            slidesPerView: 5.5,
             spaceBetween: 35,
-            panoramaEffect: { rotate: 25, depth: 250 },
+            panoramaEffect: { rotate: 20, depth: 250 },
           },
         },
       })

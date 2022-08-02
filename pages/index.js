@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Gallery from "../components/Gallery";
 import EnterScreen from "../components/EnterScreen";
 import AppHeader from "../components/AppHeader";
+import AppFooter from "../components/AppFooter";
 import CardScene from "../components/CardScene";
 
 import cardsData from "/public/data/cards-data.json";
@@ -177,7 +178,7 @@ export default function App({ showModelFromStart, model_id }) {
       {page != "enter" && (
         <AppHeader
           onRef={setAppHeader}
-          className="pt-12 absolute left-0 top-0 w-full z-50"
+          className="pt-10 absolute left-0 top-0 w-full z-50"
           menuClasses={`${page == "gallery" ? "closable" : ""}`}
           onToggleSound={toggleSound}
           onSwitchPage={switchPage}
@@ -205,6 +206,13 @@ export default function App({ showModelFromStart, model_id }) {
           />
         )}
       </main>
+
+      {page !== "cardview" && (
+        <AppFooter
+          soundMuted={defaultPlayAudio !== "true"}
+          className="absolute left-0 right-0 bottom-0 z-40"
+        />
+      )}
     </>
   );
 }

@@ -336,12 +336,19 @@ button.swiper-pagination-bullet {
   position: relative;
   /* overflow: hidden; */
 }
+
 .panorama-slider .swiper {
   width: 100%;
-  height: 350px;
+  height: 300px;
   display: flex;
   align-items: center;
   overflow: visible;
+}
+
+@screen lg {
+  .panorama-slider .swiper {
+    height: 350px;
+  }
 }
 
 .panorama-slider .swiper .swiper-wrapper {
@@ -364,7 +371,6 @@ button.swiper-pagination-bullet {
   -webkit-user-select: none;
   user-select: none;
   cursor: none !important;
-  /* height: 280px; */
   -webkit-box-reflect: below 10px -webkit-linear-gradient(bottom, rgba(
           255,
           0,

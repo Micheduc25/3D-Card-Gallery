@@ -42,10 +42,10 @@ export default function EnterScreen({ soundMuted = true, onEnter }) {
 
   return (
     <>
-      <div className="enter slide-in-big flex flex-col justify-center items-center h-screen">
-        <h1 className="text-4xl mb-6">
+      <div className="enter slide-in-big flex flex-col justify-center items-center h-screen px-6">
+        <h1 className="text-3xl md:text-4xl mb-6">
           <span className="font-light">Cards</span>{" "}
-          <span className="font-black">Gallery</span>{" "}
+          <span className="font-black">Gallery</span>
         </h1>
 
         <p className="text-xl mb-6 w-96 text-center">

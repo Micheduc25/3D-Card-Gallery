@@ -12,23 +12,13 @@ export default function AppHeader({
 }) {
   const appHeader = useRef(null);
 
-  // const [canPlay, setCanPlay] = useState(true);
-
-  // const toggleCanPlay = (value) => {
-  //   if (canPlayEnabled) {
-  //     console.log(canPlayEnabled, value);
-  //     setCanPlay(typeof value !== "undefined" ? value : !canPlay);
-  //     console.log(canPlay);
-  //   }
-  // };
-
   useEffect(() => {
     if (onRef) onRef(appHeader);
   }, [appHeader]);
 
   return (
     <>
-      <header ref={appHeader} className={`mb-12 px-6 ${className}`}>
+      <header ref={appHeader} className={`mb-12 px-6 md:px-12 ${className}`}>
         <nav className="slide-in flex justify-between items-center">
           <Link href="/">
             <a className=" text-2xl font-light">
