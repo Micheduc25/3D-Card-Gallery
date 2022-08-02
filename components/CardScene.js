@@ -327,17 +327,21 @@ export default function CardScene({ soundMuted, initialCard }) {
           @keyframes moveText {
             0% {
               transform: translateY(0);
+              opacity: 1;
             }
 
             35% {
               transform: translateY(-130%);
+              opacity: 0;
             }
             35.00001% {
               transform: translateY(130%);
+              opacity: 0;
             }
 
             100% {
               transform: translateY(0);
+              opacity: 1;
             }
           }
         `}</style>

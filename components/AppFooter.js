@@ -18,21 +18,21 @@ export default function AppFooter({ className = "", soundMuted = false }) {
           <a className="mr-6 font-semibold">gallery.com</a>
         </Link>
 
-        <Link href="/">
-          <SoundButton className="hidden md:block" muted={soundMuted}>
+        <SoundButton className="hidden md:block" muted={soundMuted}>
+          <Link href="/">
             <a className="social mr-4 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow">
               <img className="w-2" src="/images/facebook-blue.svg" />
             </a>
-          </SoundButton>
-        </Link>
+          </Link>
+        </SoundButton>
 
-        <Link href="/">
-          <SoundButton className="hidden md:block" muted={soundMuted}>
+        <SoundButton className="hidden md:block" muted={soundMuted}>
+          <Link href="/">
             <a className="social mr-4 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow">
               <img className="w-3" src="/images/twitter-blue.svg" />
             </a>
-          </SoundButton>
-        </Link>
+          </Link>
+        </SoundButton>
       </div>
 
       <style jsx>{`
