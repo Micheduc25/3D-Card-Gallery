@@ -42,7 +42,7 @@ export default function Carousel({
         resistance: false,
         panoramaEffect: { depth: 150, rotate: 45 },
         breakpoints: {
-          480: {
+          460: {
             slidesPerView: 2,
             spaceBetween: 20,
             panoramaEffect: { rotate: 35, depth: 150 },
@@ -52,17 +52,22 @@ export default function Carousel({
             spaceBetween: 25,
             panoramaEffect: { rotate: 30, depth: 150 },
           },
+          768: {
+            slidesPerView: 3.5,
+            spaceBetween: 25,
+            panoramaEffect: { rotate: 30, depth: 150 },
+          },
           1024: {
-            slidesPerView: 4,
+            slidesPerView: 4.5,
             spaceBetween: 30,
             panoramaEffect: { rotate: 30, depth: 200 },
           },
-          1200: {
+          1280: {
             slidesPerView: 5.5,
             spaceBetween: 35,
             panoramaEffect: { rotate: 20, depth: 250 },
           },
-          1500: {
+          1536: {
             slidesPerView: 6.5,
             spaceBetween: 35,
             height: 500,

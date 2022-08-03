@@ -76,7 +76,7 @@ export default function SceneCanvas({ card, cameraPosition }) {
           type: "PerspectiveCamera",
           position: Object.values(cameraPosition),
           fov: fieldOfView,
-          zoom: 1.8,
+          zoom: 2,
           rotation: { y: Math.PI / 2 },
         }}
         shadows={true}
