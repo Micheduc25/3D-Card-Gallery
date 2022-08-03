@@ -30,6 +30,7 @@ export default function Carousel({
         autoHeight: false,
         speed: 1000,
         freeMode: true,
+
         // {
         //   enabled: true,
         //   momentum: true,
@@ -59,6 +60,12 @@ export default function Carousel({
           1200: {
             slidesPerView: 5.5,
             spaceBetween: 35,
+            panoramaEffect: { rotate: 20, depth: 250 },
+          },
+          1500: {
+            slidesPerView: 6.5,
+            spaceBetween: 35,
+            height: 500,
             panoramaEffect: { rotate: 20, depth: 250 },
           },
         },

@@ -19,9 +19,9 @@ export default function SceneModel({
 
   const [texture1, texture2] = useTexture([frontImage, backImage]);
 
-  useFrame((state) => {
-    group.current.rotation.y += 0.005;
-  });
+  // useFrame((state) => {
+  //   group.current.rotation.y += 0.005;
+  // });
 
   useEffect(() => {
     texture1.center = new Vector2(0.5, 0.5);
@@ -42,7 +42,7 @@ export default function SceneModel({
   }, [image1Mesh, image2Mesh]);
 
   return (
-    <group ref={group} dispose={null} position={[0, 0, 0]}>
+    <group ref={group} dispose={null} position={[0, -1.5, 0]}>
       <mesh
         geometry={nodes.Support.geometry}
         material={materials.Verre}

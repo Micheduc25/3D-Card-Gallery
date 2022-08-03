@@ -178,7 +178,7 @@ export default function App({ showModelFromStart, model_id }) {
       {page != "enter" && (
         <AppHeader
           onRef={setAppHeader}
-          className="pt-10 absolute left-0 top-0 w-full z-50"
+          className="a-header pt-10 absolute left-0 top-0 w-full z-50"
           menuClasses={`${page == "gallery" ? "closable" : ""}`}
           onToggleSound={toggleSound}
           onSwitchPage={switchPage}
@@ -213,9 +213,17 @@ export default function App({ showModelFromStart, model_id }) {
       {page !== "cardview" && (
         <AppFooter
           soundMuted={defaultPlayAudio !== "true"}
-          className="absolute left-0 right-0 bottom-0 z-40"
+          className="a-footer absolute left-0 right-0 bottom-0 z-40 mx-auto"
         />
       )}
+
+      <style jsx>{`
+        .a-footer,
+        .a-header {
+          margin: 0 auto;
+          max-width: 1600px;
+        }
+      `}</style>
     </>
   );
 }

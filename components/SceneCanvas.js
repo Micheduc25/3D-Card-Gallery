@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import SceneModel from "./SceneModels";
+import { Vector3 } from "three";
 
 function CanvasContent({ card, cameraPosition }) {
   const context = useThree();
+  const objVec = new Vector3(0, -1.5, 0);
 
   useEffect(() => {
+    context.camera.lookAt(objVec);
+    context.camera.updateProjectionMatrix();
     // //TODO: Remove all of this once the final camera position has been chosen
     // const { GUI } = require("dat.gui");
     // const gui = new GUI();
@@ -52,9 +56,11 @@ function CanvasContent({ card, cameraPosition }) {
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2.5}
         minZoom={1}
-        maxZoom={4}
+        maxZoom={6}
         minDistance={10}
         maxDistance={20}
+        autoRotate={true}
+        // target={[0, -1.5, 0]}
       />
     </>
   );

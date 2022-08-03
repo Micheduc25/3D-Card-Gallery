@@ -351,6 +351,18 @@ button.swiper-pagination-bullet {
   }
 }
 
+@screen xl {
+  .panorama-slider .swiper {
+    height: 400px;
+  }
+}
+
+@screen 2xl {
+  .panorama-slider .swiper {
+    height: 450px;
+  }
+}
+
 .panorama-slider .swiper .swiper-wrapper {
   height: 100%;
 }
