@@ -9,6 +9,8 @@ export default function AppHeader({
   onSwitchPage,
   menuClasses = "",
   canPlayEnabled = false,
+
+  navigateHome,
 }) {
   const appHeader = useRef(null);
 
@@ -21,7 +23,7 @@ export default function AppHeader({
       <header ref={appHeader} className={`mb-12 px-6 md:px-12 ${className}`}>
         <nav className="slide-in flex justify-between items-center">
           <Link href="/">
-            <a className=" text-2xl font-light">
+            <a onClick={navigateHome} className=" text-2xl font-light">
               <span
                 style={{ animationDelay: "1.1s" }}
                 className="slide-in inline-block mr-2"

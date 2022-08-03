@@ -183,6 +183,9 @@ export default function App({ showModelFromStart, model_id }) {
           onToggleSound={toggleSound}
           onSwitchPage={switchPage}
           canPlayEnabled={defaultPlayAudio === "true"}
+          navigateHome={() => {
+            navigateTo("enter");
+          }}
         />
       )}
       <main className="main-app overflow-hidden">

@@ -3,7 +3,7 @@ import SoundButton from "./SoundButton";
 export default function AppFooter({ className = "", soundMuted = false }) {
   return (
     <>
-      <div className="footer-left flex items-center absolute left-4 md:left-12 bottom-8 z-50">
+      <div className="footer-left slide-in delay-500 flex items-center absolute left-4 md:left-12 bottom-8 z-50">
         <span className="mr-4">@Gallery</span>
         <Link href="/">
           <a className="mr-4">Legals</a>
@@ -13,7 +13,7 @@ export default function AppFooter({ className = "", soundMuted = false }) {
         </Link>
       </div>
 
-      <div className="footer-right flex items-center absolute right-4 md:right-12 bottom-8 z-50">
+      <div className="footer-right slide-in delay-1000 flex items-center absolute right-4 md:right-12 bottom-8 z-50">
         <Link href="/">
           <a className="mr-6 font-semibold">gallery.com</a>
         </Link>

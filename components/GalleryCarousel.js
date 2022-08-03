@@ -13,6 +13,8 @@ export default function Carousel({
   const [swiper, setSwiper] = useState(null);
   const sliderRef = useRef(null);
 
+  const [hasClickRegistered, setHasClickRegistered] = useState(false);
+
   useEffect(() => {
     M();
     setSwiper(
@@ -70,7 +72,9 @@ export default function Carousel({
     }
   }, [sliderRef]);
   useEffect(() => {
-    if (swiper) {
+    if (swiper && !hasClickRegistered) {
+      setHasClickRegistered(true);
+
       swiper.on(
         "click",
         (s, e) => {
@@ -80,16 +84,14 @@ export default function Carousel({
           if (dist === 0) {
             setTimeout(() => {
               onSwiperClick(s, e);
-              swiper.off("transitionEnd", () => {});
             }, 300);
-          } else {
-            swiper.on("transitionEnd", () => {
-              setTimeout(() => {
-                onSwiperClick(s, e);
-                swiper.off("transitionEnd", () => {});
-              }, 1000);
-            });
           }
+          swiper.on("transitionEnd", () => {
+            setTimeout(() => {
+              onSwiperClick(s, e);
+              swiper.off("transitionEnd", () => {});
+            }, 500);
+          });
         },
         [swiper]
       );

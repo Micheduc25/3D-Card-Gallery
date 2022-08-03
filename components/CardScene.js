@@ -196,12 +196,16 @@ export default function CardScene({ soundMuted, initialCard }) {
                         className="slide-in delay-400 "
                         muted={soundMuted ?? defaultPlayAudio}
                       >
-                        <button className="more-b rounded-full bg-white text-blue-300 px-6 py-3">
+                        <a
+                          href="https://example.com"
+                          target="_blank"
+                          className="more-b flex rounded-full bg-white text-blue-300 px-6 py-3"
+                        >
                           <div className="c-wrapper">
                             <span className="mr-3 text-md">More</span>
                             <span className="text-xs">&#10095;</span>
                           </div>
-                        </button>
+                        </a>
                       </SoundButton>
                     </div>
                   </div>
