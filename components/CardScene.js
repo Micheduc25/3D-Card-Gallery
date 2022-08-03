@@ -1,7 +1,5 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import SceneModel from "./SceneModels";
+
 import SoundButton from "./SoundButton";
 import SwiperArrow from "./SwiperArrow";
 import { useRouter } from "next/router";
@@ -13,16 +11,14 @@ import "swiper/css";
 import Loader from "./Loader";
 
 import cardsData from "/public/data/cards-data.json";
+import SceneCanvas from "./SceneCanvas";
 
 export default function CardScene({ soundMuted, initialCard }) {
-  const [cameraPosition, setCameraPosition] = useState({ x: 7, y: 20, z: 3 });
-  const [fieldOfView, setFieldOfView] = useState(35);
+  const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 10, z: 8 });
   const [defaultPlayAudio, setDefaultPlayAudio] = useState(null);
 
   const [swiper, setSwiper] = useState(null);
   const router = useRouter();
-
-  const [activeCard, setActiveCard] = useState(initialCard);
 
   const [model_id, setModelId] = useState(parseInt(router.query.model_id));
 
@@ -220,53 +216,7 @@ export default function CardScene({ soundMuted, initialCard }) {
                     />
                   }
                 >
-                  <Canvas
-                    camera={{
-                      type: "PerspectiveCamera",
-                      position: Object.values(cameraPosition),
-                      fov: fieldOfView,
-                      zoom: 1.8,
-                      rotation: { y: Math.PI / 2 },
-                    }}
-                    shadows={true}
-                    style={{
-                      width: "100vw",
-                      height: "100vh",
-                      backgroundColor: `#${card.backgroundColor}`,
-                    }}
-                  >
-                    <hemisphereLight
-                      color={"white"}
-                      groundColor={0x080820}
-                      intensity={0.5}
-                    />
-                    <spotLight
-                      intensity={0.7}
-                      castShadow={true}
-                      color={0xffffff}
-                      // shadow={{
-                      //   bias: -0.0001,
-                      //   mapSize: [1024 * 4, 1024 * 4],
-
-                      // }}
-                      position={[
-                        cameraPosition.x + 10,
-                        cameraPosition.y + 10,
-                        cameraPosition.z + 10,
-                      ]}
-                    />
-
-                    <SceneModel
-                      frontImage={card.image1}
-                      backImage={card.image2}
-                      podiumColor={parseInt(`0x${card.podiumColor}`)}
-                    />
-
-                    <OrbitControls
-                      minPolarAngle={0}
-                      maxPolarAngle={Math.PI / 2.5}
-                    />
-                  </Canvas>
+                  <SceneCanvas cameraPosition={cameraPosition} card={card} />
                 </Suspense>
               ) : (
                 <Loader

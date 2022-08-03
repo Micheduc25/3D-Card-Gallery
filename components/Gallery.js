@@ -10,7 +10,6 @@ export default function Gallery({
   onNavigateToCard,
   onRef,
   soundMuted = true,
-  cleanUp = () => {},
   aboutButClasses = "",
 }) {
   const router = useRouter();
