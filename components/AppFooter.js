@@ -1,37 +1,43 @@
 import Link from "next/link";
 import SoundButton from "./SoundButton";
+import siteContent from "/public/data/site-content.json";
+
 export default function AppFooter({ className = "", soundMuted = false }) {
   return (
     <>
       <div className="footer-left slide-in delay-500 flex items-center absolute left-4 md:left-12 bottom-8 z-50">
-        <span className="mr-4">@Gallery</span>
-        <Link href="/">
-          <a className="mr-4">Legals</a>
+        <span className="mr-4">{siteContent.footer.copyright}</span>
+        <Link href={siteContent.footer.link1.url}>
+          <a className="mr-4">{siteContent.footer.link1.text}</a>
         </Link>
-        <Link href="/">
-          <a className="mr-4">Cookies</a>
+        <Link href={siteContent.footer.link2.url}>
+          <a className="mr-4">{siteContent.footer.link2.text}</a>
         </Link>
       </div>
 
       <div className="footer-right slide-in delay-1000 flex items-center absolute right-4 md:right-12 bottom-8 z-50">
-        <Link href="/">
-          <a className="mr-6 font-semibold">gallery.com</a>
+        <Link href={siteContent.footer.link3.url}>
+          <a className="mr-6 font-semibold">{siteContent.footer.link3.text}</a>
         </Link>
 
         <SoundButton className="hidden md:block" muted={soundMuted}>
-          <Link href="/">
-            <a className="social mr-4 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow">
-              <img className="w-2" src="/images/facebook-blue.svg" />
-            </a>
-          </Link>
+          <a
+            href={siteContent.footer.facebookUrl}
+            target="_blank"
+            className="social mr-4 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow"
+          >
+            <img className="w-2" src="/images/facebook-blue.svg" />
+          </a>
         </SoundButton>
 
         <SoundButton className="hidden md:block" muted={soundMuted}>
-          <Link href="/">
-            <a className="social mr-4 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow">
-              <img className="w-3" src="/images/twitter-blue.svg" />
-            </a>
-          </Link>
+          <a
+            href={siteContent.footer.twitterUrl}
+            target="_blank"
+            className="social mr-4 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow"
+          >
+            <img className="w-3" src="/images/twitter-blue.svg" />
+          </a>
         </SoundButton>
       </div>
 

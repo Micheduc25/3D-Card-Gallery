@@ -7,6 +7,7 @@ import Head from "next/head";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import siteContent from "/public/data/site-content.json";
 
 import Loader from "./Loader";
 
@@ -167,7 +168,7 @@ export default function CardScene({ soundMuted, initialCard }) {
         <SoundButton muted={soundMuted ?? defaultPlayAudio}>
           <SwiperArrow
             canExtend={true}
-            extendText="Previous"
+            extendText={siteContent.slider.previousText}
             direction="prev"
             className="model-slide-arrow"
             onArrowClick={() => {
@@ -181,7 +182,7 @@ export default function CardScene({ soundMuted, initialCard }) {
               changeSlide("next", setExitAnimation, setEntryAnimation);
             }}
             canExtend={true}
-            extendText="Next"
+            extendText={siteContent.slider.nextText}
             direction="next"
             className="model-slide-arrow"
           />
@@ -250,12 +251,14 @@ export default function CardScene({ soundMuted, initialCard }) {
                         muted={soundMuted ?? defaultPlayAudio}
                       >
                         <a
-                          href="https://example.com"
+                          href={siteContent.cardView.moreLink}
                           target="_blank"
                           className="more-b flex rounded-full bg-white text-blue-300 px-6 py-3"
                         >
                           <div className="c-wrapper">
-                            <span className="mr-3 text-md">More</span>
+                            <span className="mr-3 text-md">
+                              {siteContent.cardView.moreText}
+                            </span>
                             <span className="text-xs">&#10095;</span>
                           </div>
                         </a>

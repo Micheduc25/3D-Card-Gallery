@@ -1,3 +1,52 @@
 {
-  "title": "Cards Platform"
+  "title": "Cards Platform",
+  "favIconUrl": "/favicon.ico",
+
+  "header": {
+    "title": "Cards Gallery"
+  },
+  "footer": {
+    "copyright": "@Gallery",
+    "link1": {
+      "text": "Legals",
+      "url": "/"
+    },
+    "link2": {
+      "text": "Cookies",
+      "url": "/"
+    },
+    "link3": {
+      "text": "gallery.com",
+      "url": "http://localhost:3000"
+    },
+    "facebookUrl": "http://localhost:3000",
+    "twitterUrl": "http://localhost:3000"
+  },
+
+  "home": {
+    "title1": "Cards",
+    "title2": "Gallery",
+    "text1": "Welcome to a world of",
+    "text2": "artful connection",
+    "text3": "one where artists from around the globe create in",
+    "text4": "new realms of possibility ",
+    "buttonText": "ENTER"
+  },
+
+  "gallery": {
+    "button": {
+      "text": "About",
+      "url": "/about"
+    }
+  },
+
+  "slider": {
+    "nextText": "Next",
+    "previousText": "Previous"
+  },
+
+  "cardView": {
+    "moreLink": "https://example.com",
+    "moreText": "More"
+  }
 }

@@ -5,6 +5,7 @@ import SwiperArrow from "../components/SwiperArrow";
 import SoundButton from "../components/SoundButton";
 import Carousel from "./GalleryCarousel";
 import Link from "next/link";
+import siteContent from "/public/data/site-content.json";
 
 export default function Gallery({
   onNavigateToCard,
@@ -166,11 +167,7 @@ export default function Gallery({
           </SoundButton>
 
           <SoundButton muted={soundMuted}>
-            <SwiperArrow
-              onArrowClick={slideNext}
-              extendText="Next"
-              direction="next"
-            />
+            <SwiperArrow onArrowClick={slideNext} direction="next" />
           </SoundButton>
           <Carousel
             onRef={setSliderRef}
@@ -191,7 +188,7 @@ export default function Gallery({
         </div>
 
         <SoundButton muted={soundMuted}>
-          <Link href="/">
+          <Link href={siteContent.gallery.button.url}>
             <a
               className={
                 "block about-but absolute z-40 left-1/2 bottom-0 cursor-pointer group " +
@@ -209,7 +206,7 @@ export default function Gallery({
                   style={{ top: "60%" }}
                   className="absolute text-lg text-blue-400 left-1/2 -translate-x-1/2 -translate-y-1/2"
                 >
-                  About
+                  {siteContent.gallery.button.text}
                 </span>
               </div>
             </a>

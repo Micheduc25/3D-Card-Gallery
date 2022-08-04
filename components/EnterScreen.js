@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import siteContent from "/public/data/site-content.json";
 export default function EnterScreen({ soundMuted = true, onEnter }) {
   const [audio, setAudio] = useState(null);
   const [playing, setPlaying] = useState(false);
@@ -44,14 +45,13 @@ export default function EnterScreen({ soundMuted = true, onEnter }) {
     <>
       <div className="enter slide-in-big flex flex-col justify-center items-center h-screen px-6">
         <h1 className="text-3xl md:text-4xl mb-6">
-          <span className="font-light">Cards</span>{" "}
-          <span className="font-black">Gallery</span>
+          <span className="font-light">{siteContent.home.title1}</span>{" "}
+          <span className="font-black">{siteContent.home.title2}</span>
         </h1>
 
         <p className="text-xl mb-6 w-96 text-center">
-          Welcome to a world of <strong>artful connection</strong>, one where
-          artists from around the globe create in{" "}
-          <strong>new realms of possibility</strong> .
+          {siteContent.home.text1} <strong>{siteContent.home.text2}</strong>,{" "}
+          {siteContent.home.text3} <strong>{siteContent.home.text4}</strong> .
         </p>
 
         <div
@@ -75,7 +75,7 @@ export default function EnterScreen({ soundMuted = true, onEnter }) {
                 className="hl-line"
               />
             </svg>
-            <span>ENTER</span>
+            <span className="">{siteContent.home.buttonText}</span>
           </button>
         </div>
 

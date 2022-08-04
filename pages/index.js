@@ -8,6 +8,7 @@ import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
 import CardScene from "../components/CardScene";
 
+import siteContent from "/public/data/site-content.json";
 import cardsData from "/public/data/cards-data.json";
 
 export async function getServerSideProps({ query }) {
@@ -171,8 +172,8 @@ export default function App({ showModelFromStart, model_id }) {
   return (
     <>
       <Head>
-        <title>Cards Platform</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>{siteContent.title}</title>
+        <link rel="icon" href={siteContent.favIconUrl} />
       </Head>
 
       {page != "enter" && (

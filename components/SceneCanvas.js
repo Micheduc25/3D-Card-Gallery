@@ -78,7 +78,7 @@ function CanvasContent({ card, cameraPosition, slideChange }) {
         minDistance={10}
         maxDistance={20}
         autoRotate={true}
-        // target={[0, -1.5, 0]}
+        target={[0, 0, 0]}
       />
     </>
   );
