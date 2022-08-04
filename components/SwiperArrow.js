@@ -2,6 +2,7 @@ export default function SwiperArrow({
   direction = "prev",
   canExtend = false,
   extendText = "Previous",
+  className = "",
   onArrowClick,
 }) {
   return (
@@ -10,7 +11,7 @@ export default function SwiperArrow({
         onClick={onArrowClick}
         className={`swiper-arrow shadow-lg ${
           direction == "prev" ? "left" : "right"
-        } ${canExtend ? "extended" : ""}`}
+        } ${canExtend ? "extended" : ""} ${className}`}
       >
         {canExtend && direction == "next" ? (
           <span className="button-text text-sm text-blue-400">
@@ -64,6 +65,11 @@ export default function SwiperArrow({
 
             .swiper-arrow.extended {
               opacity: 0.4;
+            }
+
+            .swiper-arrow.hide, .swiper-arrow.extended.hide{
+               opacity: 0 !important;
+
             }
 
             .swiper-arrow.right.extended {

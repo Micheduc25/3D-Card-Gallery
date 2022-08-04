@@ -22,43 +22,76 @@ export default function CardScene({ soundMuted, initialCard }) {
 
   const [model_id, setModelId] = useState(parseInt(router.query.model_id));
 
+  const [slideChange, setSlideChange] = useState({
+    active: false,
+    direction: "next",
+  });
+
+  const slideDelay = 2500;
+
   useEffect(() => {
     setDefaultPlayAudio(localStorage.getItem("defaultPlayAudio") === "true");
   }, []);
 
   const slidePrev = () => {
-    if (swiper) {
-      try {
-        swiper.slidePrev();
-      } catch (err) {
-        console.log("unable to slide prev");
+    return new Promise((resolve, reject) => {
+      if (swiper) {
+        try {
+          setSlideChange({ active: true, direction: "prev" });
+
+          setTimeout(() => {
+            swiper.slidePrev();
+            resolve();
+          }, slideDelay);
+        } catch (err) {
+          console.log("unable to slide prev");
+          reject();
+        }
       }
-    }
+    });
   };
   const slideNext = () => {
-    if (swiper) {
-      try {
-        swiper.slideNext();
-      } catch (err) {
-        console.log("cannot swipe next");
+    return new Promise((resolve, reject) => {
+      if (swiper) {
+        try {
+          setSlideChange({ active: true, direction: "next" });
+          setTimeout(() => {
+            swiper.slideNext();
+            resolve();
+          }, slideDelay);
+        } catch (err) {
+          console.log("cannot swipe next");
+          reject();
+        }
       }
-    }
+    });
   };
 
-  const getNextSlideIndex = (currentIndex = 0) => {
-    const numSlides = swiper.slides.length;
+  //get real index of next slide
+  const getNextSlideIndex = () => {
+    const currentIndex = swiper.realIndex;
+    const numSlides = cardsData.length;
 
     if (currentIndex == numSlides - 1) {
-      return 1;
+      return 0;
     } else return currentIndex + 1;
+  };
+  //get real index of previous slide
+  const getPrevSlideIndex = () => {
+    const currentIndex = swiper.realIndex;
+    const numSlides = cardsData.length;
+
+    if (currentIndex == 0) {
+      return numSlides - 1;
+    } else return currentIndex - 1;
   };
 
   const changeSlide = async (direction, beforeChange, afterChange) => {
     if (beforeChange) {
       await beforeChange(direction);
     }
-    if (direction == "next") slideNext();
-    else slidePrev();
+    if (direction == "next") await slideNext();
+    else await slidePrev();
 
     if (afterChange) await afterChange();
   };
@@ -72,6 +105,10 @@ export default function CardScene({ soundMuted, initialCard }) {
         .forEach((node) => node.classList.remove("visible"));
 
       currentSlide.children[0].classList.remove("visible");
+
+      document.querySelectorAll(".model-slide-arrow").forEach((node) => {
+        node.classList.add("hide");
+      });
 
       setTimeout(() => {
         resolve(null);
@@ -88,7 +125,10 @@ export default function CardScene({ soundMuted, initialCard }) {
 
       setTimeout(() => {
         currentSlide.children[0].classList.add("visible");
-      }, 1000);
+        document.querySelectorAll(".model-slide-arrow").forEach((node) => {
+          node.classList.remove("hide");
+        });
+      }, 1500);
 
       setTimeout(() => {
         resolve(null);
@@ -109,6 +149,17 @@ export default function CardScene({ soundMuted, initialCard }) {
     c_slide.children[0].classList.add("visible");
   };
 
+  const loadNextModel = (card) => {
+    return (
+      (slideChange.active &&
+        slideChange.direction == "next" &&
+        card.id - 1 == getNextSlideIndex()) ||
+      (slideChange.active &&
+        slideChange.direction == "prev" &&
+        card.id - 1 == getPrevSlideIndex())
+    );
+  };
+
   return (
     <>
       <Head></Head>
@@ -118,6 +169,7 @@ export default function CardScene({ soundMuted, initialCard }) {
             canExtend={true}
             extendText="Previous"
             direction="prev"
+            className="model-slide-arrow"
             onArrowClick={() => {
               changeSlide("prev", setExitAnimation, setEntryAnimation);
             }}
@@ -131,6 +183,7 @@ export default function CardScene({ soundMuted, initialCard }) {
             canExtend={true}
             extendText="Next"
             direction="next"
+            className="model-slide-arrow"
           />
         </SoundButton>
 
@@ -139,12 +192,16 @@ export default function CardScene({ soundMuted, initialCard }) {
           onSwiper={onSwiper}
           slidesPerView={1}
           loop={true}
+          speed={300}
           grabCursor={false}
           allowTouchMove={false}
           allowSlideNext={true}
           allowSlidePrev={true}
           initialSlide={initialCard ? initialCard.id - 1 : model_id - 1}
           onSlideChange={onSlideChange}
+          onSlideChangeTransitionEnd={() => {
+            setSlideChange({ ...slideChange, active: false });
+          }}
           // onSlideChangeTransitionStart={onTransitionStart}
         >
           {cardsData.map((card, index) => (
@@ -208,6 +265,8 @@ export default function CardScene({ soundMuted, initialCard }) {
                 </div>
               </div>
               {swiper && swiper.realIndex == card.id - 1 ? (
+                // ||
+                // loadNextModel(card)
                 <Suspense
                   fallback={
                     <Loader
@@ -216,7 +275,11 @@ export default function CardScene({ soundMuted, initialCard }) {
                     />
                   }
                 >
-                  <SceneCanvas cameraPosition={cameraPosition} card={card} />
+                  <SceneCanvas
+                    cameraPosition={cameraPosition}
+                    card={card}
+                    slideChange={slideChange}
+                  />
                 </Suspense>
               ) : (
                 <Loader
