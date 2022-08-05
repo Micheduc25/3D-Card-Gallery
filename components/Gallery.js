@@ -190,6 +190,7 @@ export default function Gallery({
         <SoundButton muted={soundMuted}>
           <Link href={siteContent.gallery.button.url}>
             <a
+              target="_blank"
               className={
                 "block about-but absolute z-40 left-1/2 bottom-0 cursor-pointer group " +
                 aboutButClasses

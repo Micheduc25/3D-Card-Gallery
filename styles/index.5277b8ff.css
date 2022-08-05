@@ -347,13 +347,13 @@ button.swiper-pagination-bullet {
 
 @screen md {
   .panorama-slider .swiper {
-    height: 410px;
+    height: 390px;
   }
 }
 
 @screen xl {
   .panorama-slider .swiper {
-    height: 440px;
+    height: 400px;
   }
 }
 

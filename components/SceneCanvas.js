@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Vector3 } from "three";
-import SceneModel from "./SceneModel";
+import NewSceneModel from "./NewSceneModel";
 
 function CanvasContent({ card, cameraPosition, slideChange }) {
   const context = useThree();
@@ -44,33 +44,33 @@ function CanvasContent({ card, cameraPosition, slideChange }) {
 
   return (
     <>
-      <hemisphereLight color={"white"} groundColor={0x080820} intensity={1.8} />
-      {/* <spotLight
+      <hemisphereLight color={"white"} groundColor={0x080820} intensity={1} />
+      <spotLight
         ref={spotLight}
-        intensity={2}
+        intensity={1}
         castShadow={true}
         color={0xffffff}
         position={[32.2, 56, 4]}
-      /> */}
+      />
 
-      <SceneModel
+      {/* <SceneModel
+        frontImage={card.image2}
+        backImage={card.image3}
+        podiumColor={parseInt(`0x${card.podiumColor}`)}
+        wallColor={parseInt(`0x${card.backgroundColor}`)}
+        slideChange={slideChange}
+      /> */}
+      <NewSceneModel
         frontImage={card.image2}
         backImage={card.image3}
         podiumColor={parseInt(`0x${card.podiumColor}`)}
         wallColor={parseInt(`0x${card.backgroundColor}`)}
         slideChange={slideChange}
       />
-      {/* <NewSceneModel
-        frontImage={card.image2}
-        backImage={card.image3}
-        podiumColor={parseInt(`0x${card.podiumColor}`)}
-        wallColor={parseInt(`0x${card.backgroundColor}`)}
-        slideChange={slideChange}
-      /> */}
 
       <OrbitControls
         minPolarAngle={0}
-        maxPolarAngle={Math.PI / 2.5}
+        maxPolarAngle={Math.PI / 2}
         minZoom={0}
         maxZoom={6}
         minDistance={4}
