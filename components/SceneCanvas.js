@@ -44,14 +44,14 @@ function CanvasContent({ card, cameraPosition, slideChange }) {
 
   return (
     <>
-      <hemisphereLight color={"white"} groundColor={0x080820} intensity={1} />
-      <spotLight
+      <hemisphereLight color={"white"} groundColor={0x080820} intensity={1.8} />
+      {/* <spotLight
         ref={spotLight}
-        intensity={0.8}
+        intensity={2}
         castShadow={true}
         color={0xffffff}
         position={[32.2, 56, 4]}
-      />
+      /> */}
 
       <SceneModel
         frontImage={card.image2}
