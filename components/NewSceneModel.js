@@ -58,32 +58,28 @@ export default function Model({
 
   useEffect(() => {
     if (!isFlipped) {
-      texture1.center = new Vector2(0.5, 0.5);
-      texture1.rotation = Math.PI;
-      texture1.flipY = false;
-      texture2.center = new Vector2(0.5, 0.5);
-      texture2.rotation = Math.PI;
-      texture2.flipY = false;
     }
   }, []);
 
   useEffect(() => {
-    if (!isTextureSet) {
-      image1Mesh.current.material.map = texture1;
-      image1Mesh.current.material.map.flipY = false;
-
-      image2Mesh.current.material.map = texture2;
-      image2Mesh.current.material.map.flipY = false;
-    }
-
-    setIsTextureSet(true);
-  }, [image1Mesh, image2Mesh]);
-
-  useEffect(() => {
+    texture1.center = new Vector2(0.5, 0.5);
     texture1.rotation = Math.PI;
+    texture2.center = new Vector2(0.5, 0.5);
     texture2.rotation = Math.PI;
     image1Mesh.current.material.map = texture1;
+    image1Mesh.current.material.map.flipY = false;
+
     image2Mesh.current.material.map = texture2;
+    image2Mesh.current.material.map.flipY = false;
+
+    setIsTextureSet(true);
+  }, []);
+
+  useEffect(() => {
+    // texture1.rotation = Math.PI;
+    // texture2.rotation = Math.PI;
+    // image1Mesh.current.material.map = texture1;
+    // image2Mesh.current.material.map = texture2;
 
     setAnimation({ ...slideChange });
   }, [slideChange]);

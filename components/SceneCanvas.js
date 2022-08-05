@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import NewSceneModel from "./NewSceneModel";
 import { Vector3 } from "three";
+import SceneModel from "./SceneModel";
 
 function CanvasContent({ card, cameraPosition, slideChange }) {
   const context = useThree();
@@ -44,39 +45,37 @@ function CanvasContent({ card, cameraPosition, slideChange }) {
 
   return (
     <>
-      <hemisphereLight color={"white"} groundColor={0x080820} intensity={0.5} />
+      <hemisphereLight color={"white"} groundColor={0x080820} intensity={1} />
       <spotLight
         ref={spotLight}
         intensity={0.8}
         castShadow={true}
         color={0xffffff}
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
-        shadow-camera-near={400}
-        shadow-camera-far={1000}
-        shadow-camera-fov={30}
-        position={[
-          cameraPosition.x + 8,
-          cameraPosition.y + 10,
-          cameraPosition.z + 10,
-        ]}
+        position={[32.2, 56, 4]}
       />
 
-      <NewSceneModel
+      <SceneModel
         frontImage={card.image2}
         backImage={card.image3}
         podiumColor={parseInt(`0x${card.podiumColor}`)}
         wallColor={parseInt(`0x${card.backgroundColor}`)}
         slideChange={slideChange}
       />
+      {/* <NewSceneModel
+        frontImage={card.image2}
+        backImage={card.image3}
+        podiumColor={parseInt(`0x${card.podiumColor}`)}
+        wallColor={parseInt(`0x${card.backgroundColor}`)}
+        slideChange={slideChange}
+      /> */}
 
       <OrbitControls
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2.5}
-        minZoom={3}
+        minZoom={0}
         maxZoom={6}
-        minDistance={10}
-        maxDistance={20}
+        minDistance={4}
+        maxDistance={25}
         autoRotate={true}
         target={[0, 0, 0]}
       />
@@ -85,7 +84,7 @@ function CanvasContent({ card, cameraPosition, slideChange }) {
 }
 
 export default function SceneCanvas({ card, cameraPosition, slideChange }) {
-  const [fieldOfView, setFieldOfView] = useState(50);
+  const [fieldOfView, setFieldOfView] = useState(60);
 
   return (
     <>
@@ -94,7 +93,7 @@ export default function SceneCanvas({ card, cameraPosition, slideChange }) {
           type: "PerspectiveCamera",
           position: Object.values(cameraPosition),
           fov: fieldOfView,
-          zoom: 2,
+          zoom: 2.7,
           rotation: { y: Math.PI / 2 },
         }}
         shadows={true}

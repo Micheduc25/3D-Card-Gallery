@@ -113,7 +113,7 @@ export default function CardScene({ soundMuted, initialCard }) {
 
       setTimeout(() => {
         resolve(null);
-      }, 1200);
+      }, 1000);
     });
 
   const setEntryAnimation = (direction) =>
@@ -129,7 +129,7 @@ export default function CardScene({ soundMuted, initialCard }) {
         document.querySelectorAll(".model-slide-arrow").forEach((node) => {
           node.classList.remove("hide");
         });
-      }, 1500);
+      }, 1000);
 
       setTimeout(() => {
         resolve(null);
