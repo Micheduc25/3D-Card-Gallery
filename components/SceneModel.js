@@ -45,7 +45,7 @@ export default function SceneModel({
         // group.current.position.x -= 0.1;
       }
     } else {
-      group.current.rotation.y = 0;
+      group.current.rotation.y += 0.001;
       group.current.position.x = 0;
     }
   });
@@ -68,16 +68,19 @@ export default function SceneModel({
         geometry={nodes.Support.geometry}
         material={materials.Verre}
         position={[0, 0.5, 0]}
+        castShadow={true}
       >
         <group position={[0, 1.6, -0.06]}>
           <mesh
             geometry={nodes.Plane001.geometry}
             material={materials.Image2}
             ref={image2Mesh}
+            castShadow={true}
           />
           <mesh
             geometry={nodes.Plane001_1.geometry}
             material={materials["Matériau carte"]}
+            castShadow={true}
           />
         </group>
         <group position={[0, 1.6, 0.01]}>
@@ -85,10 +88,12 @@ export default function SceneModel({
             ref={image1Mesh}
             geometry={nodes.Plane003.geometry}
             material={materials.Image1}
+            castShadow={true}
           />
           <mesh
             geometry={nodes.Plane003_1.geometry}
             material={materials["Matériau carte"]}
+            castShadow={true}
           />
         </group>
       </mesh>
@@ -97,6 +102,7 @@ export default function SceneModel({
         material={materials.Podium}
         position={[0, 0.14, 0]}
         material-color={podiumColor}
+        receiveShadow={true}
       />
       <group position={[0, 0.14, 0]}>
         <mesh

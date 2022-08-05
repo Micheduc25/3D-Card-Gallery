@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import NewSceneModel from "./NewSceneModel";
 import { Vector3 } from "three";
 import SceneModel from "./SceneModel";
 
@@ -76,7 +75,7 @@ function CanvasContent({ card, cameraPosition, slideChange }) {
         maxZoom={6}
         minDistance={4}
         maxDistance={25}
-        autoRotate={true}
+        // autoRotate={true}
         target={[0, 0, 0]}
       />
     </>
