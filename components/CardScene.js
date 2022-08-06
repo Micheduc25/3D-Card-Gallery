@@ -14,8 +14,8 @@ import Loader from "./Loader";
 import cardsData from "/public/data/cards-data.json";
 import SceneCanvas from "./SceneCanvas";
 
-export default function CardScene({ soundMuted, initialCard }) {
-  const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 10, z: 8 });
+export default function CardScene({ soundMuted, initialCard, onSlideSwitch }) {
+  const [cameraPosition, setCameraPosition] = useState({ x: 0, y: -4, z: 0 });
   const [defaultPlayAudio, setDefaultPlayAudio] = useState(null);
 
   const [swiper, setSwiper] = useState(null);
@@ -113,7 +113,7 @@ export default function CardScene({ soundMuted, initialCard }) {
 
       setTimeout(() => {
         resolve(null);
-      }, 1000);
+      }, 800);
     });
 
   const setEntryAnimation = (direction) =>
@@ -129,18 +129,18 @@ export default function CardScene({ soundMuted, initialCard }) {
         document.querySelectorAll(".model-slide-arrow").forEach((node) => {
           node.classList.remove("hide");
         });
-      }, 1000);
+      }, 800);
 
       setTimeout(() => {
         resolve(null);
-      }, 400);
+      }, 300);
     });
 
   const onSlideChange = (s) => {
     const currentSlide = s.slides[s.activeIndex];
     const s_id = parseInt(currentSlide.id.split("-")[2]);
     setModelId(s_id);
-
+    onSlideSwitch(cardsData.find((card) => card.id == s_id));
     router.push(`/?model_id=${s_id}`, undefined, { shallow: true });
   };
 
@@ -150,16 +150,16 @@ export default function CardScene({ soundMuted, initialCard }) {
     c_slide.children[0].classList.add("visible");
   };
 
-  const loadNextModel = (card) => {
-    return (
-      (slideChange.active &&
-        slideChange.direction == "next" &&
-        card.id - 1 == getNextSlideIndex()) ||
-      (slideChange.active &&
-        slideChange.direction == "prev" &&
-        card.id - 1 == getPrevSlideIndex())
-    );
-  };
+  // const loadNextModel = (card) => {
+  //   return (
+  //     (slideChange.active &&
+  //       slideChange.direction == "next" &&
+  //       card.id - 1 == getNextSlideIndex()) ||
+  //     (slideChange.active &&
+  //       slideChange.direction == "prev" &&
+  //       card.id - 1 == getPrevSlideIndex())
+  //   );
+  // };
 
   return (
     <>

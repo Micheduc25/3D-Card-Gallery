@@ -45,7 +45,7 @@ export default function SceneModel({
         // group.current.position.x -= 0.1;
       }
     } else {
-      group.current.rotation.y += 0.001;
+      group.current.rotation.y += 0.005;
       group.current.position.x = 0;
     }
   });
@@ -85,9 +85,9 @@ export default function SceneModel({
         </group>
         <group position={[0, 1.6, 0.01]}>
           <mesh
-            ref={image1Mesh}
             geometry={nodes.Plane003.geometry}
             material={materials.Image1}
+            ref={image1Mesh}
             castShadow={true}
           />
           <mesh
@@ -113,7 +113,8 @@ export default function SceneModel({
         />
         <mesh
           geometry={nodes.Cylinder002_1.geometry}
-          material={materials.Verre}
+          material={materials["Blanc projecteurs"]}
+          receiveShadow={true}
         />
       </group>
     </group>

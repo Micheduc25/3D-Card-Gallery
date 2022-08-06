@@ -169,6 +169,15 @@ export default function App({ showModelFromStart, model_id }) {
     }
   };
 
+  // useEffect(() => {
+  //   appHeader.st
+  // },[]);
+
+  const setHeaderTheme = (card) => {
+    if (appHeader)
+      appHeader.current.style.color = card.theme == "light" ? "white" : "black";
+  };
+
   return (
     <>
       <Head>
@@ -207,6 +216,7 @@ export default function App({ showModelFromStart, model_id }) {
           <CardScene
             soundMuted={defaultPlayAudio !== "true"}
             initialCard={activeCard}
+            onSlideSwitch={setHeaderTheme}
           />
         )}
       </main>
