@@ -3,7 +3,8 @@
   "favIconUrl": "/favicon.ico",
 
   "header": {
-    "title": "Cards Gallery"
+    "title1": "Cards",
+    "title2": "Gallery"
   },
   "footer": {
     "copyright": "@Gallery",

@@ -1,7 +1,7 @@
 import NavButton from "./NavButton";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-
+import siteContent from "/public/data/site-content.json";
 export default function AppHeader({
   className = "",
   onRef,
@@ -28,14 +28,14 @@ export default function AppHeader({
                 style={{ animationDelay: "1.1s" }}
                 className="slide-in inline-block mr-2"
               >
-                Cards
+                {siteContent.header.title1}
               </span>
               <span
                 style={{ animationDelay: "1.26s" }}
                 className="slide-in font-bold inline-block"
               >
                 {" "}
-                Gallery
+                {siteContent.header.title2}
               </span>
             </a>
           </Link>
