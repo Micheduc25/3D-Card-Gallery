@@ -13,29 +13,6 @@ function CanvasContent({ card, cameraPosition, slideChange }) {
   useEffect(() => {
     context.camera.lookAt(objVec);
     context.camera.updateProjectionMatrix();
-    // //TODO: Remove all of this once the final camera position has been chosen
-    // const { GUI } = require("dat.gui");
-    // const gui = new GUI();
-    // const cameraFolder = gui.addFolder("Camera");
-    // cameraFolder.add(context.camera.position, "x", -100, 100);
-    // cameraFolder.add(context.camera.position, "y", -100, 100);
-    // cameraFolder.add(context.camera.position, "z", -100, 100);
-    // cameraFolder.open();
-
-    // const lookAtFolder = gui.addFolder("Camera Fov");
-    // lookAtFolder.add(context.camera, "fov", -100, 100);
-    // lookAtFolder.open();
-
-    // const spotLightFolder = gui.addFolder("Spot Light");
-    // spotLightFolder.add(spotLight.current.position, "x", -100, 100);
-    // spotLightFolder.add(spotLight.current.position, "y", -100, 100);
-    // spotLightFolder.add(spotLight.current.position, "z", -100, 100);
-    // const datEl = document.querySelector(".dg");
-    // datEl.style.zIndex = "50";
-    // // console.log(datEl);
-
-    //-29.9 -12 10
-    //21.3 15 12
   }, []);
 
   return (
@@ -61,11 +38,8 @@ function CanvasContent({ card, cameraPosition, slideChange }) {
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2}
         enableZoom={false}
-        minDistance={4}
-        maxDistance={10}
-        enableDamping={true}
-        dampingFactor={0.12}
-        // autoRotate={true}
+        minDistance={3}
+        maxDistance={9}
         target={[0, 0, 0]}
       />
 
