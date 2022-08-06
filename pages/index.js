@@ -188,7 +188,7 @@ export default function App({ showModelFromStart, model_id }) {
       {page != "enter" && (
         <AppHeader
           onRef={setAppHeader}
-          className="a-header pt-10 absolute left-0 top-0 w-full z-50"
+          className="a-header pt-5 md:pt-10 absolute left-0 top-0 w-full z-50"
           menuClasses={`${page == "gallery" ? "closable" : ""}`}
           onToggleSound={toggleSound}
           onSwitchPage={switchPage}
