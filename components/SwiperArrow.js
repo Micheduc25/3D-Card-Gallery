@@ -109,6 +109,16 @@ export default function SwiperArrow({
               right: 30px;
             }
 
+            @media only screen and (min-width:769px){
+              .swiper-arrow.left {
+                left: 50px;
+              }
+  
+              .swiper-arrow.right {
+                right: 50px;
+              }
+            }
+
             .swiper-arrow.left .arrow-border {
               margin-left: 22px;
             }

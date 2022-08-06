@@ -349,14 +349,6 @@ button.swiper-pagination-bullet {
   .panorama-slider .swiper {
     height: 390px;
   }
-
-  .swiper-arrow.right {
-    right: 50px;
-  }
-
-  .swiper-arrow.left {
-    left: 50px;
-  }
 }
 
 @screen xl {
