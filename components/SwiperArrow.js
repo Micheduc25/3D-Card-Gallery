@@ -102,11 +102,11 @@ export default function SwiperArrow({
             }
 
             .swiper-arrow.left {
-              left: 50px;
+              left: 30px;
             }
 
             .swiper-arrow.right {
-              right: 50px;
+              right: 30px;
             }
 
             .swiper-arrow.left .arrow-border {
